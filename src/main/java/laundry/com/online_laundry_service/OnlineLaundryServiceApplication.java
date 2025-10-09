@@ -8,5 +8,6 @@ public class OnlineLaundryServiceApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(OnlineLaundryServiceApplication.class, args);
+	System.out.println("Hi world");
 	}
 }
