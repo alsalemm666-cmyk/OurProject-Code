@@ -1,4 +1,4 @@
-package com.example.laundry.entity;
+package laundry.com.online_laundry_service.Entities;
 
 import jakarta.persistence.*;
 
@@ -9,18 +9,15 @@ public class OrderItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String itemType;
     private double price;
     private int quantity;
 
     @ManyToOne
     @JoinColumn(name = "order_id")
-    private Order order;
+    private OrderItem order;
 
-    public OrderItem() {}
-
-    public OrderItem(String itemType, double price, int quantity, Order order) {
+    public OrderItem(String itemType, double price, int quantity, OrderItem order) {
         this.itemType = itemType;
         this.price = price;
         this.quantity = quantity;
@@ -59,11 +56,11 @@ public class OrderItem {
         this.quantity = quantity;
     }
 
-    public Order getOrder() {
+    public OrderItem getOrder() {
         return order;
     }
 
-    public void setOrder(Order order) {
+    public void setOrder(OrderItem order) {
         this.order = order;
     }
 }
