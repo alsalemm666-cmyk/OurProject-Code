@@ -3,13 +3,13 @@ package laundry.com.online_laundry_service.Services;
 import org.springframework.stereotype.Service;
 import java.util.*;
 import laundry.com.online_laundry_service.Entities.OrderItem;
-import laundry.com.online_laundry_service.Repositories.OrderItemRepository;
+import laundry.com.online_laundry_service.Repositories.OrderItemrepository;
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class OrderItemService {
-    private final OrderItemRepository repo;
+public class OrderItemServices {
+    private final OrderItemrepository repo;
 
     public List<OrderItem> getAll() { return repo.findAll(); }
     public Optional<OrderItem> getById(Long id) { return repo.findById(id); }
