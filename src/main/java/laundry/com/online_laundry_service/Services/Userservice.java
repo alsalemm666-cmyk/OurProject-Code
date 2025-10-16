@@ -38,7 +38,7 @@ public class Userservice {
             user.setRole(updatedUser.getRole());
             return userrepository.save(user);
         } else {
-            return null; // أو ممكن ترمين استثناء لو تبغين
+            return null; 
         }
     }
 
