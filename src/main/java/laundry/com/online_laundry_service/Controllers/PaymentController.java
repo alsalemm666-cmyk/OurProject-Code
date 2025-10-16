@@ -1,4 +1,4 @@
-package laundry.com.online_laundry_service.controllers;
+package laundry.com.online_laundry_service.Controllers;
 
 import laundry.com.online_laundry_service.Entities.Payment;
 import laundry.com.online_laundry_service.Services.PaymentService;

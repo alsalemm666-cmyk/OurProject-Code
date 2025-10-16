@@ -1,4 +1,4 @@
-package laundry.com.online_laundry_service.services;
+package laundry.com.online_laundry_service.Services;
 
 import laundry.com.online_laundry_service.Entities.Payment;
 import laundry.com.online_laundry_service.Repositories.PaymentRepository;

@@ -1,4 +1,4 @@
-package laundry.com.online_laundry_service.entities;
+package laundry.com.online_laundry_service.Entities;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;
