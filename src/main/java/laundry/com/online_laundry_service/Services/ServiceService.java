@@ -3,7 +3,6 @@ package laundry.com.online_laundry_service.Services;
 import laundry.com.online_laundry_service.Entities.Service;
 import laundry.com.online_laundry_service.Repositories.ServiceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
