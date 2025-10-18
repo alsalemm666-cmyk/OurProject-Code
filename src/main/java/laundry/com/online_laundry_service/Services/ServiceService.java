@@ -1,8 +1,10 @@
 package laundry.com.online_laundry_service.Services;
 
-import laundry.com.online_laundry_service.Entities.Service;
+import laundry.com.online_laundry_service.Entities.LaundryService;
 import laundry.com.online_laundry_service.Repositories.ServiceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -12,19 +14,19 @@ public class ServiceService {
     @Autowired
     private ServiceRepository serviceRepository;
 
-    public Service createService(Service service) {
+    public LaundryService createService(LaundryService service) {
         return serviceRepository.save(service);
     }
 
-    public List<Service> getAllServices() {
+    public List<LaundryService> getAllServices() {
         return serviceRepository.findAll();
     }
 
-    public Optional<Service> getServiceById(Long id) {
+    public Optional<LaundryService> getServiceById(Long id) {
         return serviceRepository.findById(id);
     }
 
-    public Service updateService(Long id, Service serviceDetails) {
+    public LaundryService updateService(Long id, LaundryService serviceDetails) {
         return serviceRepository.findById(id)
                 .map(service -> {
                     service.setName(serviceDetails.getName());

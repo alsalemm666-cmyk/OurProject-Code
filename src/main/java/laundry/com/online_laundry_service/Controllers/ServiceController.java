@@ -1,6 +1,6 @@
-package laundry.com.online_laundry_service.controller;
+package laundry.com.online_laundry_service.Controllers;
 
-import laundry.com.online_laundry_service.Entities.Service;
+import laundry.com.online_laundry_service.Entities.LaundryService;
 import laundry.com.online_laundry_service.Services.ServiceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,25 +16,25 @@ public class ServiceController {
     private ServiceService serviceService;
 
     @PostMapping
-    public Service createService(@RequestBody Service service) {
+    public LaundryService createService(@RequestBody LaundryService service) {
         return serviceService.createService(service);
     }
 
     @GetMapping
-    public List<Service> getAllServices() {
+    public List<LaundryService> getAllServices() {
         return serviceService.getAllServices();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Service> getServiceById(@PathVariable Long id) {
-        Optional<Service> service = serviceService.getServiceById(id);
+    public ResponseEntity<LaundryService> getServiceById(@PathVariable Long id) {
+        Optional<LaundryService> service = serviceService.getServiceById(id);
         return service.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Service> updateService(@PathVariable Long id, @RequestBody Service serviceDetails) {
-        Service updatedService = serviceService.updateService(id, serviceDetails);
+    public ResponseEntity<LaundryService> updateService(@PathVariable Long id, @RequestBody LaundryService serviceDetails) {
+        LaundryService updatedService = serviceService.updateService(id, serviceDetails);
         if (updatedService != null) {
             return ResponseEntity.ok(updatedService);
         } else {
