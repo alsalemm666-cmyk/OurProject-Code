@@ -19,12 +19,12 @@ public class OrderService {
     }
 
     // 🔹 إرجاع كل الطلبات
-    public List<Order> getAllOrders() {
+    public List<jakarta.persistence.criteria.Order> getAllOrders() {
         return orderRepository.findAll();
     }
 
     // 🔹 إرجاع طلب محدد بالـ ID
-    public Optional<Order> getOrderById(Long id) {
+    public Optional<jakarta.persistence.criteria.Order> getOrderById(Long id) {
         return orderRepository.findById(id);
     }
 
@@ -34,16 +34,16 @@ public class OrderService {
     }
 
     // 🔹 تحديث طلب موجود
-    public Order updateOrder(Long id, Order updatedOrder) {
+    public jakarta.persistence.criteria.Order updateOrder(Long id, Order updatedOrder) {
         return orderRepository.findById(id)
                 .map(order -> {
-                    order.setStatus(updatedOrder.getStatus());
-                    order.setPickupTime(updatedOrder.getPickupTime());
-                    order.setDeliveryTime(updatedOrder.getDeliveryTime());
-                    order.setUser(updatedOrder.getUser());
-                    order.setServices(updatedOrder.getServices());
-                    order.setOrderItems(updatedOrder.getOrderItems());
-                    order.setPayment(updatedOrder.getPayment());
+                    ((Order) order).setStatus(updatedOrder.getStatus());
+                    ((Order) order).setPickupTime(updatedOrder.getPickupTime());
+                    ((Order) order).setDeliveryTime(updatedOrder.getDeliveryTime());
+                    ((Order) order).setUser(updatedOrder.getUser());
+                    ((Order) order).setServices(updatedOrder.getServices());
+                    ((Order) order).setOrderItems(updatedOrder.getOrderItems());
+                    ((Order) order).setPayment(updatedOrder.getPayment());
                     return orderRepository.save(order);
                 })
                 .orElse(null);

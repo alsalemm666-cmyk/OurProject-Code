@@ -1,4 +1,4 @@
-package com.example.laundry.controller;
+package laundry.com.online_laundry_service.Controllers;
 import laundry.com.online_laundry_service.Entities.User;
 import laundry.com.online_laundry_service.Services.Userservice;
 import org.springframework.beans.factory.annotation.Autowired;
