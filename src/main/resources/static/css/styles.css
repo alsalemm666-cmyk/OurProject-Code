@@ -1,0 +1,48 @@
+:root {
+    --brand-dark: #0D3B66;
+    /* primary dark */
+    --brand-light: #66A3D2;
+    /* primary light */
+    --brand-accent: #F8FAFC;
+    /* background */
+    --text: #0A1F33;
+}
+
+body {
+    background: var(--brand-accent);
+    color: var(--text);
+    font-family: 'Segoe UI', Tahoma, system-ui, -apple-system, 'Noto Sans Arabic', 'Almarai', sans-serif;
+}
+
+/* Brand classes */
+.text-primary-brand {
+    color: var(--brand-light) !important;
+}
+
+.btn-brand {
+    background: var(--brand-dark);
+    color: #fff;
+    border: none;
+}
+
+.btn-outline-brand {
+    color: var(--brand-dark);
+    border-color: var(--brand-dark);
+}
+
+.card {
+    border-radius: 12px;
+}
+
+/* RTL adjustments for small screens */
+@media (max-width: 576px) {
+    .navbar-brand .d-flex {
+        flex-direction: row-reverse;
+    }
+}
+
+/* Form input focus */
+.form-control:focus {
+    box-shadow: 0 0 0 .15rem rgba(13, 59, 102, 0.15);
+    border-color: var(--brand-dark);
+}

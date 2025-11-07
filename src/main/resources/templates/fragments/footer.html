@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" xmlns:th="http://www.thymeleaf.org">
+  <body>
+    <footer th:fragment="footerFragment" class="bg-white text-center text-muted py-4 mt-5 border-top">
+      <div class="container">
+        <p class="mb-1">© <span th:text="${T(java.time.Year).now()}">2025</span> Laundries. جميع الحقوق محفوظة.</p>
+        <small>Contact: <a href="mailto:info@laundries.local">info@laundries.local</a></small>
+      </div>
+    </footer>
+  </body>
+</html>
