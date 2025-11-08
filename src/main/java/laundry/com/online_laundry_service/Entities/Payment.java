@@ -16,12 +16,12 @@ public class Payment {
     private String status;     // Paid / Pending
     private LocalDate paymentDate;
 
-    @ManyToOne
+    // ✅ العلاقة الصحيحة: كل طلب له عملية دفع واحدة
+    @OneToOne
     @JoinColumn(name = "order_id")
-    private OrderItem orderItem; // تأكدي إن OrderItem موجود عندك
+    private Order order;
 
     // Getters and Setters
-
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
@@ -37,6 +37,6 @@ public class Payment {
     public LocalDate getPaymentDate() { return paymentDate; }
     public void setPaymentDate(LocalDate paymentDate) { this.paymentDate = paymentDate; }
 
-    public OrderItem getOrderItem() { return orderItem; }
-    public void setOrderItem(OrderItem orderItem) { this.orderItem = orderItem; }
+    public Order getOrder() { return order; }
+    public void setOrder(Order order) { this.order = order; }
 }

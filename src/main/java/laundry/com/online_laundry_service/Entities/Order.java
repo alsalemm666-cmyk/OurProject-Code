@@ -1,11 +1,7 @@
 package laundry.com.online_laundry_service.Entities;
 import jakarta.persistence.*;
-
-import java.security.Provider.Service;
 import java.time.LocalDateTime;
 import java.util.List;
-
-import org.hibernate.annotations.Parent;
 
 @Entity
 @Table(name = "orders")
@@ -25,8 +21,9 @@ public class Order {
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderItem> orderItems;
 
-    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
-    private Parent payment;
+@OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
+private Payment payment;
+;
 
     @ManyToMany
     @JoinTable(
@@ -34,7 +31,7 @@ public class Order {
         joinColumns = @JoinColumn(name = "order_id"),
         inverseJoinColumns = @JoinColumn(name = "service_id")
     )
-    private List<Service> services;
+    private List<LaundryService> services;
 
     // Getters & Setters
     public Long getId() {
@@ -85,19 +82,19 @@ public class Order {
         this.orderItems = orderItems;
     }
 
-    public Parent getPayment() {
+    public Payment getPayment() {
         return payment;
     }
 
-    public void setPayment(Parent payment) {
+    public void setPayment(Payment payment) {
         this.payment = payment;
     }
 
-    public List<Service> getServices() {
+    public List<LaundryService> getServices() {
         return services;
     }
 
-    public void setServices(List<Service> services) {
+    public void setServices(List<LaundryService> services) {
         this.services = services;
     }
 }

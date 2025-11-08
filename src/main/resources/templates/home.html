@@ -1,54 +1,55 @@
-<html lang="ar" dir="rtl" xmlns:th="http://www.thymeleaf.org">
-  <body>
-    <div th:replace="layout :: body">
-      <section class="py-4">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-          <div>
-            <h2 class="mb-0">مرحبًا، <span th:text="${user.name}">العميل</span></h2>
-            <small class="text-muted">نظام طلب المغاسل - تتبع الطلبات بسهولة</small>
-          </div>
-          <a th:href="@{/orders/create}" class="btn btn-outline-brand">اطلب الآن</a>
-        </div>
-
-        <div class="row">
-          <div class="col-lg-8">
-            <div class="card mb-3">
-              <div class="card-body">
-                <h5>أحدث الطلبات</h5>
-                <div th:if="${orders.size()} == 0">لا توجد طلبات بعد.</div>
-                <ul class="list-group list-group-flush" th:each="o : ${orders}">
-                  <li class="list-group-item d-flex justify-content-between align-items-center">
+<!DOCTYPE html>
+<html lang="ar" xmlns:th="http://www.thymeleaf.org" dir="rtl">
+    <body>
+        <div th:replace="layout :: content">
+            <section class="py-4">
+                <div class="d-flex justify-content-between align-items-center mb-4">
                     <div>
-                      <div><strong th:text="${o.id}">#1</strong> — <span th:text="${o.status}">Pending</span></div>
-                      <small class="text-muted" th:text="${o.pickupTime}">2025-01-01</small>
+                        <h2 class="mb-0">مرحبًا، <span th:text="${user.name}">العميل</span></h2>
+                        <small class="text-muted">نظام طلب المغاسل - تتبع الطلبات بسهولة</small>
                     </div>
-                    <div>
-                      <a th:href="@{/orders/{id}(id=${o.id})}" class="btn btn-sm btn-outline-secondary">عرض</a>
+                    <a th:href="@{/orders/create}" class="btn btn-outline-brand">اطلب الآن</a>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h5>أحدث الطلبات</h5>
+                                <div th:if="${orders.size()} == 0">لا توجد طلبات بعد.</div>
+                                <ul class="list-group list-group-flush" th:each="o : ${orders}">
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <div><strong th:text="${o.id}">#1</strong> — <span th:text="${o.status}">Pending</span></div>
+                                            <small class="text-muted" th:text="${o.pickupTime}">2025-01-01</small>
+                                        </div>
+                                        <div>
+                                            <a th:href="@{/orders/{id}(id=${o.id})}" class="btn btn-sm btn-outline-secondary">عرض</a>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-body">
+                                <h5>العروض</h5>
+                                <p class="mb-0">عرض خاص: توصيل مجاني للطلبات فوق 200 ريال.</p>
+                            </div>
+                        </div>
                     </div>
-                  </li>
-                </ul>
-              </div>
-            </div>
 
-            <div class="card">
-              <div class="card-body">
-                <h5>العروض</h5>
-                <p class="mb-0">عرض خاص: توصيل مجاني للطلبات فوق 200 ريال.</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4">
-            <div class="card">
-              <div class="card-body text-center">
-                <h6>رصيدك الحالي</h6>
-                <p class="display-6 text-primary-brand">0 SAR</p>
-                <a th:href="@{/payments}" class="btn btn-brand btn-sm">ادفع الآن</a>
-              </div>
-            </div>
-          </div>
+                    <div class="col-lg-4">
+                        <div class="card">
+                            <div class="card-body text-center">
+                                <h6>رصيدك الحالي</h6>
+                                <p class="display-6 text-primary-brand">0 SAR</p>
+                                <a th:href="@{/payments}" class="btn btn-brand btn-sm">ادفع الآن</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </div>
-      </section>
-    </div>
-  </body>
+    </body>
 </html>
