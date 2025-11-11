@@ -8,10 +8,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class PageController {
 
     // الصفحة الرئيسية
-    @GetMapping("/")
+    @GetMapping("/home")
     public String home(Model model) {
         // ممكن تمرر بيانات لاحقاً مثل اسم المستخدم أو الطلبات
-        model.addAttribute("pageTitle", "الرئيسية");
+        model.addAttribute("pageTitle", "الصفحة الرئيسية");
         return "home"; // يفتح home.html من templates
     }
 

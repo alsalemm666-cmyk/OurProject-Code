@@ -1,46 +1,11 @@
-<html lang="ar" dir="rtl" xmlns:th="http://www.thymeleaf.org">
-  <body>
-    <div th:replace="layout :: body">
-      <section class="row justify-content-center">
-        <div class="col-lg-8">
-          <div class="card shadow-sm">
-            <div class="card-body">
-              <h4 class="card-title mb-3">إنشاء طلب جديد</h4>
-
-              <form th:action="@{/orders/create}" method="post">
-                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-
-                <div class="mb-3">
-                  <label class="form-label">تحديد الخدمات</label>
-                  <!-- Example: server passes "services" list to show checkboxes -->
-                  <div class="row g-2" th:each="svc : ${services}">
-                    <div class="col-12 d-flex align-items-center">
-                      <input type="checkbox" th:id="${'svc_' + svc.id}" th:name="servicesIds" th:value="${svc.id}" class="form-check-input me-2" />
-                      <label th:for="${'svc_' + svc.id}" class="mb-0" th:text="${svc.name} + ' - ' + svc.price + ' SAR'">الخدمة</label>
-                      <input type="number" min="1" value="1" th:name="quantity_${svc.id}" class="form-control form-control-sm w-auto ms-3" />
-                    </div>
-                  </div>
-                </div>
-
-                <div class="row g-2">
-                  <div class="col-md-6">
-                    <label class="form-label">وقت الاستلام</label>
-                    <input type="datetime-local" name="pickupTime" class="form-control" required />
-                  </div>
-                  <div class="col-md-6">
-                    <label class="form-label">ملاحظات</label>
-                    <input type="text" name="notes" class="form-control" placeholder="ملاحظات إضافية" />
-                  </div>
-                </div>
-
-                <div class="mt-3 d-grid">
-                  <button class="btn btn-brand">إنشاء الطلب</button>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-      </section>
-    </div>
-  </body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>order create</title>
+</head>
+<body>
+  <h1>order create</h1>
+</body>
 </html>

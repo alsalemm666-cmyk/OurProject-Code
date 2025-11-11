@@ -1,37 +1,11 @@
-<html lang="ar" dir="rtl" xmlns:th="http://www.thymeleaf.org">
-  <body>
-    <div th:replace="layout :: body">
-      <section class="row justify-content-center">
-        <div class="col-md-6 col-lg-4">
-          <div class="card shadow-sm">
-            <div class="card-body">
-              <h4 class="card-title text-center mb-3">تسجيل الدخول</h4>
-
-              <form th:action="@{/login}" method="post">
-                <!-- CSRF token (if Spring Security enabled) -->
-                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-
-                <div class="mb-3">
-                  <label class="form-label">البريد الإلكتروني</label>
-                  <input type="email" name="email" class="form-control" placeholder="mail@example.com" required />
-                </div>
-                <div class="mb-3">
-                  <label class="form-label">كلمة المرور</label>
-                  <input type="password" name="password" class="form-control" placeholder="••••••" required />
-                </div>
-
-                <div class="d-grid">
-                  <button class="btn btn-brand">دخول</button>
-                </div>
-
-                <div class="mt-3 text-center">
-                  <small>لا تملك حسابًا؟ <a th:href="@{/register}">سجّل الآن</a></small>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-      </section>
-    </div>
-  </body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>login</title>
+</head>
+<body>
+  <h1>login</h1>
+</body>
 </html>
