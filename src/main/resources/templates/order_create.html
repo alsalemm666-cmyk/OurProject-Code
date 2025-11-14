@@ -1,11 +1,82 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>order create</title>
+    <meta charset="UTF-8">
+    <title>إنشاء طلب</title>
+    <style>
+        body { font-family: Arial; padding: 20px; background: #f5f5f5; }
+        h2 { color: #333; }
+        .box {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            width: 350px;
+            margin: auto;
+            border: 1px solid #ddd;
+        }
+        label { display: block; margin-top: 10px; }
+        input, select {
+            width: 100%; padding: 8px; margin-top: 5px;
+            border: 1px solid #ccc; border-radius: 6px;
+        }
+        button {
+            margin-top: 15px; width: 100%; padding: 10px;
+            border: none; border-radius: 6px;
+            background: #007bff; color: white; cursor: pointer;
+        }
+    </style>
 </head>
 <body>
-  <h1>order create</h1>
+
+<div class="box">
+    <h2>إنشاء طلب جديد</h2>
+
+    <label>اختر الخدمة</label>
+    <select id="serviceSelect">
+        <option>جاري التحميل...</option>
+    </select>
+
+    <label>وقت الاستلام</label>
+    <input type="datetime-local" id="pickupTime">
+
+    <button onclick="createOrder()">إنشاء الطلب</button>
+</div>
+
+<script>
+    // التحميل: جلب الخدمات للـ select
+    fetch('/api/services')
+        .then(res => res.json())
+        .then(data => {
+            let select = document.getElementById('serviceSelect');
+            select.innerHTML = "";
+
+            data.forEach(s => {
+                select.innerHTML += `<option value="${s.id}">${s.name} - ${s.price} ريال</option>`;
+            });
+        });
+
+    function createOrder() {
+        let serviceId = document.getElementById('serviceSelect').value;
+        let pickup = document.getElementById('pickupTime').value;
+
+        let order = {
+            pickupTime: pickup,
+            status: "Pending",
+            services: [{ id: serviceId }]
+        };
+
+        fetch('/api/orders', {
+            method: 'POST',
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(order)
+        })
+        .then(res => res.json())
+        .then(data => {
+            alert("تم إنشاء الطلب رقم " + data.id);
+        })
+        .catch(err => alert("خطأ!"));
+    }
+</script>
+
 </body>
 </html>

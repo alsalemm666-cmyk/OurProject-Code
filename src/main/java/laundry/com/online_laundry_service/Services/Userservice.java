@@ -1,33 +1,39 @@
 package laundry.com.online_laundry_service.Services;
+
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
 import laundry.com.online_laundry_service.Entities.User;
 import laundry.com.online_laundry_service.Repositories.Userrepository;
+import laundry.com.online_laundry_service.DTO.UserDTO;
+import laundry.com.online_laundry_service.DTO.LoginDTO;
 
 @Service
 public class Userservice {
-    @Autowired //Autowired
+
+    @Autowired
     private Userrepository userrepository;
 
-    // إنشاء مستخدم جديد
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    // =================== CRUD القديم ===================
     public User createUser(User user) {
         return userrepository.save(user);
     }
 
-    // عرض جميع المستخدمين
     public List<User> getAllUsers() {
         return userrepository.findAll();
     }
 
-    // جلب مستخدم حسب الـ ID
     public Optional<User> getUserById(Long id) {
         return userrepository.findById(id);
     }
 
-    // تحديث بيانات المستخدم
     public User updateUser(Long id, User updatedUser) {
         Optional<User> existingUser = userrepository.findById(id);
         if (existingUser.isPresent()) {
@@ -38,13 +44,38 @@ public class Userservice {
             user.setRole(updatedUser.getRole());
             return userrepository.save(user);
         } else {
-            return null; 
+            return null;
         }
     }
 
-    // حذف مستخدم
     public void deleteUser(Long id) {
         userrepository.deleteById(id);
     }
 
+    // =================== Auth جديد ===================
+    public String registerUser(UserDTO userDTO) {
+        if (userrepository.findByEmail(userDTO.getEmail()) != null) {
+            return "Email already exists";
+        }
+
+        User user = new User();
+        user.setName(userDTO.getName());
+        user.setEmail(userDTO.getEmail());
+        user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+        user.setRole("USER");
+        userrepository.save(user);
+
+        return "User registered successfully";
+    }
+
+    public String loginUser(LoginDTO loginDTO) {
+        User user = userrepository.findByEmail(loginDTO.getEmail());
+        if (user == null) return "Email not found";
+
+        if (!passwordEncoder.matches(loginDTO.getPassword(), user.getPassword())) {
+            return "Incorrect password";
+        }
+
+        return "Login successful";
+    }
 }

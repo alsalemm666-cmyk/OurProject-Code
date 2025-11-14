@@ -1,37 +1,106 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title th:text="${pageTitle} ?: 'الصفحة الرئيسية'">الصفحة الرئيسية</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title th:text="${pageTitle} ?: 'الرئيسية'">الرئيسية</title>
+
+  <!-- Bootstrap RTL -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
+
+  <!-- optional custom css -->
+  <link th:href="@{/css/styles.css}" rel="stylesheet" />
 </head>
+<body class="bg-light">
 
-<body>
-  <div th:replace="layout :: layoutContent">
-    <section class="container my-5">
-      <h2 class="mb-3 text-center">مرحبًا <span th:text="${user != null ? user.name : 'الضيف'}"></span></h2>
-      <p class="text-center text-muted">نظام إدارة المغاسل - تتبع طلباتك بكل سهولة</p>
+<nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom">
+  <div class="container">
+    <a class="navbar-brand" href="#" th:href="@{/home}">Laundries</a>
+    <div>
+      <a class="btn btn-outline-primary me-2" th:href="@{/login}">تسجيل دخول</a>
+      <a class="btn btn-primary" th:href="@{/register}">إنشاء حساب</a>
+    </div>
+  </div>
+</nav>
 
-      <div class="text-center mb-4">
-        <a th:href="@{/orders/create}" class="btn btn-primary">إنشاء طلب جديد</a>
-      </div>
-
-      <div class="card shadow-sm">
-        <div class="card-body">
-          <h5 class="mb-3">الطلبات الأخيرة</h5>
-          <div th:if="${orders == null or orders.size() == 0}" class="text-muted">لا توجد طلبات حالياً.</div>
-          <ul class="list-group" th:each="order : ${orders}">
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-              <div>
-                <strong th:text="'طلب #' + ${order.id}"></strong> —
-                <span th:text="${order.status}">قيد التنفيذ</span>
-              </div>
-              <a th:href="@{/orders/{id}(id=${order.id})}" class="btn btn-sm btn-outline-secondary">عرض التفاصيل</a>
-            </li>
-          </ul>
+<main class="container my-4">
+  <div class="row">
+    <div class="col-12 mb-3">
+      <div class="card">
+        <div class="card-body d-flex justify-content-between align-items-center">
+          <div>
+            <h4 class="mb-0">
+              مرحبًا،
+              <span th:text="${user != null ? user.name : 'العميل'}">العميل</span>
+            </h4>
+            <small class="text-muted">نظام طلب المغاسل - تتبع الطلبات</small>
+          </div>
+          <div>
+            <a class="btn btn-outline-success" th:href="@{/orders/create}">إنشاء طلب جديد</a>
+          </div>
         </div>
       </div>
-    </section>
+    </div>
+
+    <!-- الطلبات -->
+    <div class="col-lg-8 mb-3">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">أحدث الطلبات</h5>
+
+          <!-- رسالة إن لم توجد طلبات أو قائمة -->
+          <div th:if="${orders == null or #lists.isEmpty(orders)}" class="text-muted">
+            لا توجد طلبات بعد.
+          </div>
+
+          <ul class="list-group" th:if="${orders != null and !#lists.isEmpty(orders)}">
+            <li class="list-group-item d-flex justify-content-between align-items-center"
+                th:each="o : ${orders}">
+              <div>
+                <div>
+                  <strong th:text="${'#'+o.id}">#1</strong>
+                  &nbsp;—&nbsp;
+                  <span th:text="${o.status}">Pending</span>
+                </div>
+                <small class="text-muted" th:text="${o.pickupTime}">2025-01-01T09:00</small>
+              </div>
+              <div>
+                <a th:href="@{/orders/{id}(id=${o.id})}" class="btn btn-sm btn-outline-secondary">عرض</a>
+              </div>
+            </li>
+          </ul>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- بطاقة جانبية -->
+    <div class="col-lg-4">
+      <div class="card mb-3">
+        <div class="card-body text-center">
+          <h6>رصيدك الحالي</h6>
+          <p class="display-6">0 SAR</p>
+          <a class="btn btn-primary btn-sm" th:href="@{/payments}">ادفع الآن</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h6>العروض</h6>
+          <p class="mb-0">توفر توصيل مجاني للطلبات فوق 200 ريال.</p>
+        </div>
+      </div>
+    </div>
   </div>
+</main>
+
+<footer class="bg-white border-top py-3">
+  <div class="container text-center small text-muted">
+    © حقوق الملكية — مشروع المغاسل
+  </div>
+</footer>
+
+<!-- Bootstrap JS bundle -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
