@@ -4,29 +4,123 @@
   <meta charset="UTF-8">
   <title th:text="${pageTitle} ?: 'الصفحة الرئيسية'">الصفحة الرئيسية</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    body {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    .hero-section {
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 15px;
+      padding: 3rem;
+      margin-top: 2rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+    .welcome-text {
+      color: #333;
+      font-size: 2.5rem;
+      font-weight: bold;
+    }
+    .subtitle {
+      color: #666;
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+    }
+    .btn-primary {
+      background: linear-gradient(45deg, #007bff, #0056b3);
+      border: none;
+      border-radius: 25px;
+      padding: 0.75rem 2rem;
+      font-size: 1.1rem;
+      transition: transform 0.2s;
+    }
+    .btn-primary:hover {
+      transform: scale(1.05);
+      background: linear-gradient(45deg, #0056b3, #004085);
+    }
+    .card {
+      border: none;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      background: rgba(255, 255, 255, 0.95);
+    }
+    .card-body h5 {
+      color: #333;
+      font-weight: bold;
+      margin-bottom: 1.5rem;
+    }
+    .list-group-item {
+      border: none;
+      border-radius: 10px;
+      margin-bottom: 0.5rem;
+      background: #f8f9fa;
+      transition: background 0.3s;
+    }
+    .list-group-item:hover {
+      background: #e9ecef;
+    }
+    .btn-outline-secondary {
+      border-radius: 20px;
+      border-color: #6c757d;
+      color: #6c757d;
+      transition: all 0.3s;
+    }
+    .btn-outline-secondary:hover {
+      background: #6c757d;
+      color: white;
+    }
+    .no-orders {
+      font-style: italic;
+      color: #999;
+      text-align: center;
+      padding: 2rem;
+    }
+    .icon {
+      margin-left: 0.5rem;
+    }
+  </style>
 </head>
 
 <body>
   <div th:replace="layout :: layoutContent">
     <section class="container my-5">
-      <h2 class="mb-3 text-center">مرحبًا <span th:text="${user != null ? user.name : 'الضيف'}"></span></h2>
-      <p class="text-center text-muted">نظام إدارة المغاسل - تتبع طلباتك بكل سهولة</p>
-
-      <div class="text-center mb-4">
-        <a th:href="@{/orders/create}" class="btn btn-primary">إنشاء طلب جديد</a>
+      <div class="hero-section text-center">
+        <h2 class="welcome-text">
+          <i class="fas fa-hand-wave icon"></i>
+          مرحبًا <span th:text="${user != null ? user.name : 'الضيف'}"></span>
+        </h2>
+        <p class="subtitle">
+          <i class="fas fa-tshirt icon"></i>
+          نظام إدارة المغاسل - تتبع طلباتك بكل سهولة
+        </p>
+        <a th:href="@{/orders/create}" class="btn btn-primary">
+          <i class="fas fa-plus-circle icon"></i>
+          إنشاء طلب جديد
+        </a>
       </div>
 
-      <div class="card shadow-sm">
+      <div class="card shadow-sm mt-5">
         <div class="card-body">
-          <h5 class="mb-3">الطلبات الأخيرة</h5>
-          <div th:if="${orders == null or orders.size() == 0}" class="text-muted">لا توجد طلبات حالياً.</div>
+          <h5>
+            <i class="fas fa-list icon"></i>
+            الطلبات الأخيرة
+          </h5>
+          <div th:if="${orders == null or orders.size() == 0}" class="no-orders">
+            <i class="fas fa-inbox fa-3x mb-3"></i><br>
+            لا توجد طلبات حالياً.
+          </div>
           <ul class="list-group" th:each="order : ${orders}">
             <li class="list-group-item d-flex justify-content-between align-items-center">
               <div>
                 <strong th:text="'طلب #' + ${order.id}"></strong> —
-                <span th:text="${order.status}">قيد التنفيذ</span>
+                <span th:text="${order.status}" class="badge bg-secondary">قيد التنفيذ</span>
               </div>
-              <a th:href="@{/orders/{id}(id=${order.id})}" class="btn btn-sm btn-outline-secondary">عرض التفاصيل</a>
+              <a th:href="@{/orders/{id}(id=${order.id})}" class="btn btn-sm btn-outline-secondary">
+                <i class="fas fa-eye icon"></i>
+                عرض التفاصيل
+              </a>
             </li>
           </ul>
         </div>
