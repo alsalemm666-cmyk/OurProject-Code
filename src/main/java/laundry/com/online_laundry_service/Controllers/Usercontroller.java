@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
 import org.springframework.validation.BindingResult;
 
+import laundry.com.online_laundry_service.Entities.Role;
 import laundry.com.online_laundry_service.Entities.User;
 import laundry.com.online_laundry_service.Services.Userservice;
-import laundry.com.online_laundry_service.DTO.UserDTO;
 import laundry.com.online_laundry_service.DTO.LoginDTO;
 
 @RestController
@@ -49,39 +49,41 @@ public class Usercontroller {
     }
 
     // =================== Auth جديد ===================
-@PostMapping("/register")
-public ResponseEntity<?> register(@Valid @RequestBody UserDTO userDTO, BindingResult result) {
+    @PostMapping("/register")
+    public ResponseEntity<?> register(@Valid @RequestBody User user, BindingResult result) {
+        if (result.hasErrors()) {
+            var fieldError = result.getFieldError();
+            String errorMessage = (fieldError != null)
+                    ? fieldError.getDefaultMessage()
+                    : result.getAllErrors().isEmpty() ? "Invalid input"
+                    : result.getAllErrors().get(0).getDefaultMessage();
+            return ResponseEntity.badRequest().body(errorMessage);
+        }
 
-    if (result.hasErrors()) {
-        String errorMessage = result.getAllErrors().get(0).getDefaultMessage();
-        return ResponseEntity.badRequest().body(errorMessage);
+        // العميل دائمًا CUSTOMER
+        user.setRole(Role.CUSTOMER);
+
+        User savedUser = userService.register(user);
+        return ResponseEntity.ok(savedUser);
     }
 
-    String response = userService.registerUser(userDTO);
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@Valid @RequestBody LoginDTO loginDTO, BindingResult result) {
+        if (result.hasErrors()) {
+            var fieldError = result.getFieldError();
+            String errorMessage = (fieldError != null)
+                    ? fieldError.getDefaultMessage()
+                    : result.getAllErrors().isEmpty() ? "Invalid input"
+                    : result.getAllErrors().get(0).getDefaultMessage();
+            return ResponseEntity.badRequest().body(errorMessage);
+        }
 
-    if (response.equals("User registered successfully")) {
-        return ResponseEntity.ok(response);
-    } else {
-        return ResponseEntity.badRequest().body(response);
+        String response = userService.loginUser(loginDTO);
+
+        if (response.equals("Login successful")) {
+            return ResponseEntity.ok(response);
+        } else {
+            return ResponseEntity.badRequest().body(response);
+        }
     }
-}
-
-
-
-@PostMapping("/login")
-public ResponseEntity<?> login(@Valid @RequestBody LoginDTO loginDTO, BindingResult result) {
-
-    if (result.hasErrors()) {
-        String errorMessage = result.getAllErrors().get(0).getDefaultMessage();
-        return ResponseEntity.badRequest().body(errorMessage);
-    }
-
-    String response = userService.loginUser(loginDTO);
-
-    if (response.equals("Login successful")) {
-        return ResponseEntity.ok(response);
-    } else {
-        return ResponseEntity.badRequest().body(response);
-    }
-}
 }

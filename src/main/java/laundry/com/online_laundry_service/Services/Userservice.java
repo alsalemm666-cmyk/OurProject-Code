@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import laundry.com.online_laundry_service.Entities.Role;
 import laundry.com.online_laundry_service.Entities.User;
 import laundry.com.online_laundry_service.Repositories.Userrepository;
 import laundry.com.online_laundry_service.DTO.UserDTO;
@@ -62,11 +63,17 @@ public class Userservice {
         user.setName(userDTO.getName());
         user.setEmail(userDTO.getEmail());
         user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
-        user.setRole("USER");
+        user.setRole(Role.CUSTOMER);
         userrepository.save(user);
 
         return "User registered successfully";
     }
+
+    public User register(User user) {
+    user.setPassword(passwordEncoder.encode(user.getPassword()));
+    return userrepository.save(user);
+}
+
 
     public String loginUser(LoginDTO loginDTO) {
         User user = userrepository.findByEmail(loginDTO.getEmail());
