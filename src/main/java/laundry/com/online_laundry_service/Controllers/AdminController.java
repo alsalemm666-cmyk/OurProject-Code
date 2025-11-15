@@ -4,7 +4,6 @@ import laundry.com.online_laundry_service.Entities.Role;
 import laundry.com.online_laundry_service.Entities.User;
 import laundry.com.online_laundry_service.Services.Userservice;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
@@ -20,20 +19,14 @@ public class AdminController {
     }
 
     // إنشاء عامل مغسلة (Worker)
-    @PostMapping("/create-worker")
-    public ResponseEntity<?> createWorker(@Valid @RequestBody User user, BindingResult result) {
-        if (result.hasErrors()) {
-            var fieldError = result.getFieldError();
-            String errorMessage = (fieldError != null)
-                    ? fieldError.getDefaultMessage()
-                    : result.getAllErrors().isEmpty() ? "Invalid input" : result.getAllErrors().get(0).getDefaultMessage();
-            return ResponseEntity.badRequest().body(errorMessage);
-        }
+@PostMapping("/create-worker")
+public ResponseEntity<?> createWorker(@Valid @RequestBody User user) {
 
-        // العامل دائمًا WORKER
-        user.setRole(Role.WORKER);
+    user.setRole(Role.WORKER);
 
-        User savedWorker = userService.register(user);
-        return ResponseEntity.ok(savedWorker);
-    }
+    User savedWorker = userService.register(user);
+    return ResponseEntity.ok(savedWorker);
+}
+
+
 }

@@ -3,12 +3,14 @@ package laundry.com.online_laundry_service.Controllers;
 import lombok.RequiredArgsConstructor;
 import laundry.com.online_laundry_service.Entities.LaundryService;
 import laundry.com.online_laundry_service.Entities.Order;
+import laundry.com.online_laundry_service.Entities.OrderItem;
 import laundry.com.online_laundry_service.Services.OrderService;
 import laundry.com.online_laundry_service.Services.ServiceService;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,6 +40,10 @@ public class OrderController {
 @PostMapping("/create")
 public ResponseEntity<?> createOrder(@RequestBody Order order) {
 
+    if (order.getServices() == null) order.setServices(new ArrayList<>());
+    if (order.getOrderItems() == null) order.setOrderItems(new ArrayList<>());
+
+    // ربط الخدمات
     List<Long> serviceIds = order.getServices()
                                  .stream()
                                  .map(LaundryService::getId)
@@ -47,8 +53,12 @@ public ResponseEntity<?> createOrder(@RequestBody Order order) {
             .map(id -> serviceService.getServiceById(id)
             .orElseThrow(() -> new RuntimeException("Service not found: " + id)))
             .toList();
-
     order.setServices(services);
+
+    // ربط كل OrderItem بالـ Order
+    for (OrderItem item : order.getOrderItems()) {
+        item.setOrder(order);
+    }
 
     Order savedOrder = orderService.createOrder(order);
     return ResponseEntity.ok(savedOrder);
