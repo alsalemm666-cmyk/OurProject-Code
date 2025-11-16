@@ -1,11 +1,51 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>services</title>
+    <meta charset="UTF-8">
+    <title>الخدمات</title>
+    <style>
+        body { font-family: Arial; padding: 20px; background: #f5f5f5; }
+        h2 { color: #333; }
+        .service {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+        }
+        .price {
+            color: green;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
-  <h1>services</h1>
+
+    <h2>الخدمات المتاحة</h2>
+    <div id="serviceList">جاري تحميل الخدمات...</div>
+
+    <script>
+        // جلب الخدمات من API
+        fetch('/api/services')
+            .then(res => res.json())
+            .then(data => {
+                let container = document.getElementById('serviceList');
+                container.innerHTML = "";
+
+                data.forEach(s => {
+                    container.innerHTML += `
+                        <div class="service">
+                            <h3>${s.name}</h3>
+                            <p>${s.description}</p>
+                            <p class="price">${s.price} ريال</p>
+                        </div>
+                    `;
+                });
+            })
+            .catch(err => {
+                document.getElementById('serviceList').innerHTML = "خطأ في تحميل البيانات";
+            });
+    </script>
+
 </body>
 </html>

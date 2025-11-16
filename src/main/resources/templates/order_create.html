@@ -1,11 +1,213 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>order create</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${pageTitle} ?: 'إنشاء طلب جديد'">إنشاء طلب جديد</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* ==================== 1. تنسيقات BODY والخلفية ==================== */
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column; 
+        }
+
+        /* ==================== 2. تنسيقات الـ Header (منقولة من home.html) ==================== */
+        .app-header {
+            background-color: #3f51b5; 
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            padding: 1rem 0;
+            margin-bottom: 2rem;
+        }
+        .logo-img { height: 30px; margin-left: 10px; }
+
+
+        /* ==================== 3. تنسيقات الصفحة (نموذج الطلب الشفاف) ==================== */
+        .order-card {
+            background: rgba(255, 255, 255, 0.15); /* خلفية شبه شفافة */
+            backdrop-filter: blur(5px);
+            padding: 3rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            max-width: 550px; /* عرض مناسب للنموذج */
+            margin: auto;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: #ffffff;
+        }
+        .order-card h2 {
+            color: #ffffff;
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+        }
+        .form-control, .form-select {
+            background: rgba(255, 255, 255, 0.1); 
+            border: 1px solid rgba(255, 255, 255, 0.4); 
+            color: #ffffff;
+            border-radius: 10px;
+            box-shadow: none;
+        }
+        .form-control:focus, .form-select:focus {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: #ffffff; 
+        }
+        .form-control::placeholder, .form-select option {
+            color: rgba(255, 255, 255, 0.7); 
+        }
+        .btn-submit {
+            background: linear-gradient(45deg, #007bff, #0056b3);
+            border: none;
+            border-radius: 25px;
+            padding: 0.75rem 0;
+            font-size: 1.1rem;
+            transition: transform 0.2s;
+        }
+        .btn-submit:hover {
+            transform: scale(1.02);
+        }
+
+        /* ==================== 4. تنسيقات الـ Footer (مدمجة) ==================== */
+        .app-footer {
+            background-color: rgba(0, 0, 0, 0.2); 
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.8);
+            padding-top: 2rem !important; 
+        }
+        .app-footer h5, .app-footer p, .app-footer a { color: #ffffff; }
+    </style>
 </head>
-<body>
-  <h1>order create</h1>
+
+<body class="d-flex flex-column min-vh-100"> 
+    
+    <header class="app-header">
+        <div class="container d-flex justify-content-between align-items-center">
+            <h3 class="m-0 text-white">
+                <img th:src="@{/img/logo.jpg}" alt="شعار المغسلة" class="logo-img" />
+               
+            </h3>
+            <nav>
+                <a th:href="@{/home}" class="text-white mx-2 text-decoration-none">الرئيسية</a>
+                <a th:href="@{/services}" class="text-white mx-2 text-decoration-none">الخدمات</a>
+                <a th:href="@{/orders/create}" class="text-white mx-2 text-decoration-none">إنشاء طلب</a>
+                <a th:href="@{/login}" class="btn btn-light btn-sm mx-2">تسجيل الدخول</a>
+            </nav>
+        </div>
+    </header>
+    <main class="flex-grow-1 container d-flex align-items-center">
+        <div class="order-card w-100">
+            <h2 class="text-center"><i class="fas fa-plus-circle me-2"></i> إنشاء طلب جديد</h2>
+            
+            <form id="orderForm">
+                <div class="mb-4">
+                    <label class="form-label">اختر الخدمة</label>
+                    <select id="serviceSelect" class="form-select form-select-lg">
+                        <option value="" disabled selected>جاري تحميل الخدمات...</option>
+                    </select>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label">وقت الاستلام المقترح</label>
+                    <input type="datetime-local" id="pickupTime" class="form-control form-control-lg">
+                </div>
+
+                <button type="button" onclick="createOrder()" class="btn btn-submit btn-lg w-100">إنشاء الطلب</button>
+            </form>
+        </div>
+    </main>
+    
+    <footer class="app-footer pt-5 pb-3 mt-auto">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 mb-4">
+                    <h5>نظام إدارة المغاسل</h5>
+                    <p class="small">
+                        تطبيق متكامل لتتبع وإدارة طلبات المغاسل بكل سهولة وسرعة، مع واجهة مستخدم عصرية وأنيقة.
+                    </p>
+                </div>
+                <div class="col-md-6 mb-4 text-end">
+                    <h5>تواصل معنا</h5>
+                    <ul class="list-unstyled small text-end">
+                        <li><i class="fas fa-map-marker-alt me-2"></i> المملكة العربية السعودية</li>
+                        <li><i class="fas fa-envelope me-2"></i> info@laundryapp.com</li>
+                        <li><i class="fas fa-phone me-2"></i> +966 50 XXX XXXX</li>
+                    </ul>
+                    <div class="mt-3">
+                        <a href="#" class="social-icon text-white"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-icon text-white"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-icon text-white"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+            </div>
+            <hr class="mt-2 mb-3" style="border-color: rgba(255, 255, 255, 0.3);">
+            <div class="row">
+                <div class="col-12 text-center small">
+                    &copy; <span th:text="${#dates.format(#dates.createNow(), 'yyyy')}">2025</span> جميع الحقوق محفوظة لنظام المغاسل الذكي.
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script th:inline="javascript">
+        // ** ملاحظة: تم استخدام th:inline="javascript" لضمان عمل مسارات Thymeleaf/Spring Boot **
+        
+        const API_URL = "/api"; 
+        
+        // التحميل: جلب الخدمات للـ select
+        fetch(API_URL + '/services')
+            .then(res => res.json())
+            .then(data => {
+                let select = document.getElementById('serviceSelect');
+                select.innerHTML = "";
+                
+                // إضافة خيار افتراضي قبل التكرار
+                select.innerHTML += '<option value="" disabled selected>-- اختر خدمة --</option>';
+
+                data.forEach(s => {
+                    select.innerHTML += `<option value="${s.id}">${s.name} - ${s.price} ريال</option>`;
+                });
+            })
+            .catch(err => {
+                document.getElementById('serviceSelect').innerHTML = "<option>فشل تحميل الخدمات!</option>";
+            });
+
+        function createOrder() {
+            let serviceId = document.getElementById('serviceSelect').value;
+            let pickup = document.getElementById('pickupTime').value;
+
+            if (!serviceId || !pickup) {
+                alert("الرجاء اختيار الخدمة وتحديد وقت الاستلام.");
+                return;
+            }
+
+            let order = {
+                pickupTime: pickup,
+                status: "Pending",
+                // يجب أن تكون الواجهة الخلفية تعرف التعامل مع هذا الهيكل
+                services: [{ id: serviceId }] 
+            };
+
+            fetch(API_URL + '/orders', {
+                method: 'POST',
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(order)
+            })
+            .then(res => {
+                if (res.ok) {
+                    return res.json();
+                } else {
+                    throw new Error('فشل إنشاء الطلب، تحقق من بياناتك.');
+                }
+            })
+            .then(data => {
+                alert("تم إنشاء الطلب رقم " + data.id + ". يمكنك تتبعه الآن.");
+                window.location.href = '/home'; // إعادة توجيه المستخدم بعد النجاح
+            })
+            .catch(err => alert("خطأ! " + err.message));
+        }
+    </script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script th:src="@{/js/main.js}"></script>
 </body>
 </html>

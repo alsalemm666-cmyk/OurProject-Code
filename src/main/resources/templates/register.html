@@ -1,47 +1,178 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title th:text="${pageTitle} ?: 'إنشاء حساب جديد'">إنشاء حساب جديد</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${pageTitle} ?: 'تسجيل حساب جديد'">تسجيل حساب جديد</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* ==================== 1. تنسيقات BODY والخلفية ==================== */
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column; 
+        }
+
+        /* ==================== 2. تنسيقات الـ Header (منقولة) ==================== */
+        .app-header {
+            background-color: #3f51b5; 
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            padding: 1rem 0;
+            margin-bottom: 2rem;
+        }
+        .logo-img { height: 30px; margin-left: 10px; }
+
+        /* ==================== 3. تنسيقات نموذج التسجيل الشفاف ==================== */
+        .register-card {
+            background: rgba(255, 255, 255, 0.15); /* خلفية شبه شفافة */
+            backdrop-filter: blur(5px);
+            padding: 3rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            max-width: 450px; 
+            margin: auto;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: #ffffff;
+        }
+        .register-card h4 {
+            color: #ffffff;
+            font-weight: bold;
+            margin-bottom: 2rem;
+        }
+        .form-label {
+            color: #ffffff;
+            font-weight: 600;
+        }
+        .form-control {
+            background: rgba(255, 255, 255, 0.1); 
+            border: 1px solid rgba(255, 255, 255, 0.4); 
+            color: #ffffff;
+            border-radius: 10px;
+            box-shadow: none;
+        }
+        .form-control:focus {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: #ffffff; 
+        }
+        .form-control::placeholder {
+            color: rgba(255, 255, 255, 0.7); 
+        }
+        .btn-success { /* تعديل زر التسجيل */
+            background: linear-gradient(45deg, #28a745, #1e7e34); 
+            border: none;
+            border-radius: 25px;
+            padding: 0.75rem 0;
+            font-size: 1.1rem;
+            transition: transform 0.2s;
+        }
+        .btn-success:hover {
+            transform: scale(1.02);
+        }
+        .login-link {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+
+        /* ==================== 4. تنسيقات الـ Footer (مدمجة) ==================== */
+        .app-footer {
+            background-color: rgba(0, 0, 0, 0.2); 
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.8);
+            padding-top: 2rem !important; 
+        }
+        .app-footer h5, .app-footer p, .app-footer a { color: #ffffff; }
+        .social-icon { font-size: 1.5rem; margin: 0 0.5rem; }
+    </style>
 </head>
 
-<body>
-  <div th:replace="layout :: layoutContent">
-    <div class="container my-5">
-      <div class="row justify-content-center">
-        <div class="col-md-6">
-          <div class="card shadow-sm">
-            <div class="card-body">
-              <h3 class="text-center mb-4">إنشاء حساب جديد</h3>
-
-              <form th:action="@{/users/create}" method="post">
-                <div class="mb-3">
-                  <label class="form-label">الاسم الكامل</label>
-                  <input type="text" class="form-control" name="name" required>
-                </div>
-
-                <div class="mb-3">
-                  <label class="form-label">البريد الإلكتروني</label>
-                  <input type="email" class="form-control" name="email" required>
-                </div>
-
-                <div class="mb-3">
-                  <label class="form-label">كلمة المرور</label>
-                  <input type="password" class="form-control" name="password" required>
-                </div>
-
-                <button type="submit" class="btn btn-success w-100">تسجيل</button>
-              </form>
-
-              <div class="text-center mt-3">
-                <a th:href="@{/login}">لديك حساب بالفعل؟ تسجيل الدخول</a>
-              </div>
-            </div>
-          </div>
+<body class="d-flex flex-column min-vh-100"> 
+    
+    <header class="app-header">
+        <div class="container d-flex justify-content-between align-items-center">
+            <h3 class="m-0 text-white">
+                <img th:src="@{/img/logo.jpg}" alt="شعار المغسلة" class="logo-img" />
+                نظام المغسلة
+            </h3>
+            <nav>
+                <a th:href="@{/home}" class="text-white mx-2 text-decoration-none">الرئيسية</a>
+                <a th:href="@{/services}" class="text-white mx-2 text-decoration-none">الخدمات</a>
+                <a th:href="@{/orders/create}" class="text-white mx-2 text-decoration-none">إنشاء طلب</a>
+                <a th:href="@{/login}" class="btn btn-light btn-sm mx-2">تسجيل الدخول</a>
+            </nav>
         </div>
-      </div>
-    </div>
-  </div>
-</body>
+    </header>
+    <main class="flex-grow-1 container d-flex align-items-center justify-content-center">
+        <div class="row w-100">
+            <div class="col-md-12">
+                <div class="register-card">
+                    <h4 class="card-title mb-4 text-center">إنشاء حساب جديد</h4>
+    
+                    <form th:action="@{/users/create}" method="post">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">الاسم الكامل</label>
+                            <input id="name" name="name" type="text" class="form-control form-control-lg" required />
+                        </div>
+    
+                        <div class="mb-3">
+                            <label for="email" class="form-label">البريد الإلكتروني</label>
+                            <input id="email" name="email" type="email" class="form-control form-control-lg" required />
+                        </div>
+    
+                        <div class="mb-3">
+                            <label for="password" class="form-label">كلمة المرور</label>
+                            <input id="password" name="password" type="password" class="form-control form-control-lg" required />
+                        </div>
+    
+                        <input type="hidden" name="role" value="USER" />
+    
+                        <div class="d-grid mt-4">
+                            <button type="submit" class="btn btn-success btn-lg">سجل الآن</button>
+                        </div>
+                    </form>
+    
+                    <div class="text-center mt-4">
+                        <small>لديك حساب بالفعل؟ <a th:href="@{/login}" class="login-link">تسجيل الدخول</a></small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <footer class="app-footer pt-5 pb-3 mt-auto">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 mb-4">
+                    <h5>نظام إدارة المغاسل</h5>
+                    <p class="small">
+                        تطبيق متكامل لتتبع وإدارة طلبات المغاسل بكل سهولة وسرعة، مع واجهة مستخدم عصرية وأنيقة.
+                    </p>
+                </div>
+                <div class="col-md-6 mb-4 text-end">
+                    <h5>تواصل معنا</h5>
+                    <ul class="list-unstyled small text-end">
+                        <li><i class="fas fa-map-marker-alt me-2"></i> المملكة العربية السعودية</li>
+                        <li><i class="fas fa-envelope me-2"></i> info@laundryapp.com</li>
+                        <li><i class="fas fa-phone me-2"></i> +966 50 XXX XXXX</li>
+                    </ul>
+                    <div class="mt-3">
+                        <a href="#" class="social-icon text-white"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-icon text-white"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-icon text-white"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+            </div>
+            <hr class="mt-2 mb-3" style="border-color: rgba(255, 255, 255, 0.3);">
+            <div class="row">
+                <div class="col-12 text-center small">
+                    &copy; <span th:text="${#dates.format(#dates.createNow(), 'yyyy')}">2025</span> جميع الحقوق محفوظة لنظام المغاسل الذكي.
+                </div>
+            </div>
+        </div>
+    </footer>
+    </body>
 </html>
