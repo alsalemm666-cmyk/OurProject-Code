@@ -2,6 +2,7 @@ package laundry.com.online_laundry_service.Services;
 
 import org.springframework.stereotype.Service;
 import laundry.com.online_laundry_service.Entities.Order;
+import laundry.com.online_laundry_service.Entities.OrderItem;
 import laundry.com.online_laundry_service.Repositories.OrderRepository;
 
 import java.util.List;
@@ -12,7 +13,7 @@ public class OrderService {
 
     private final OrderRepository orderRepository;
 
-    // 🧩 Constructor Injection (أفضل ممارسة)
+    // 🧩 Constructor Injection
     public OrderService(OrderRepository orderRepository) {
         this.orderRepository = orderRepository;
     }
@@ -29,6 +30,23 @@ public class OrderService {
 
     // 🔹 إضافة طلب جديد
     public Order createOrder(Order order) {
+
+        // ربط كل OrderItem بالـ Order
+        if (order.getOrderItems() != null) {
+            for (OrderItem item : order.getOrderItems()) {
+                item.setOrder(order);
+            }
+
+            // حساب إجمالي السعر
+            double total = order.getOrderItems()
+                    .stream()
+                    .mapToDouble(OrderItem::getPrice)
+                    .sum();
+            order.setTotalAmount(total);
+        } else {
+            order.setTotalAmount(0.0);
+        }
+
         return orderRepository.save(order);
     }
 
@@ -40,9 +58,26 @@ public class OrderService {
                     order.setPickupTime(updatedOrder.getPickupTime());
                     order.setDeliveryTime(updatedOrder.getDeliveryTime());
                     order.setUser(updatedOrder.getUser());
-                    order.setServices(updatedOrder.getServices());
-                    order.setOrderItems(updatedOrder.getOrderItems());
+
+                    // تحديث العناصر
+                    if (updatedOrder.getOrderItems() != null) {
+                        // نفصل القديمة ونربط الجديدة
+                        order.getOrderItems().clear();
+                        for (OrderItem item : updatedOrder.getOrderItems()) {
+                            item.setOrder(order);
+                            order.getOrderItems().add(item);
+                        }
+
+                        double total = order.getOrderItems()
+                                .stream()
+                                .mapToDouble(OrderItem::getPrice)
+                                .sum();
+                        order.setTotalAmount(total);
+                    }
+
+                    // الدفع (لو حاب تحدثه)
                     order.setPayment(updatedOrder.getPayment());
+
                     return orderRepository.save(order);
                 })
                 .orElse(null);
@@ -51,5 +86,13 @@ public class OrderService {
     // 🔹 حذف طلب
     public void deleteOrder(Long id) {
         orderRepository.deleteById(id);
+    }
+
+    // (اختياري) لجلب طلبات مستخدم معيّن إذا احتجتها للـ Profile أو My Orders
+    public List<Order> getOrdersByUserId(Long userId) {
+        return orderRepository.findAll()
+                .stream()
+                .filter(o -> o.getUser() != null && o.getUser().getId().equals(userId))
+                .toList();
     }
 }

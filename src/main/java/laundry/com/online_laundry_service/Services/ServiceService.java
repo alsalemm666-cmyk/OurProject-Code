@@ -15,6 +15,8 @@ public class ServiceService {
     private ServiceRepository serviceRepository;
 
     public LaundryService createService(LaundryService service) {
+        // ممكن تضبط صورة افتراضية لو imageUrl == null
+        // if (service.getImageUrl() == null) service.setImageUrl("/img/default-service.jpg");
         return serviceRepository.save(service);
     }
 
@@ -32,6 +34,7 @@ public class ServiceService {
                     service.setName(serviceDetails.getName());
                     service.setDescription(serviceDetails.getDescription());
                     service.setPrice(serviceDetails.getPrice());
+                    service.setImageUrl(serviceDetails.getImageUrl()); // 🔥 مهم
                     return serviceRepository.save(service);
                 }).orElse(null);
     }

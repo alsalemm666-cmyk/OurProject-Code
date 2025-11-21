@@ -10,7 +10,6 @@ import laundry.com.online_laundry_service.Services.ServiceService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,37 +36,56 @@ public class OrderController {
     }
 
     // 🔹 إنشاء طلب جديد
-@PostMapping("/create")
-public ResponseEntity<?> createOrder(@RequestBody Order order) {
+    @PostMapping("/create")
+    public ResponseEntity<Order> createOrder(@RequestBody Order order) {
 
-    if (order.getServices() == null) order.setServices(new ArrayList<>());
-    if (order.getOrderItems() == null) order.setOrderItems(new ArrayList<>());
+        if (order.getOrderItems() != null) {
+            for (OrderItem item : order.getOrderItems()) {
 
-    // ربط الخدمات
-    List<Long> serviceIds = order.getServices()
-                                 .stream()
-                                 .map(LaundryService::getId)
-                                 .toList();
+                // ربط الخدمة الصحيحة من قاعدة البيانات
+                if (item.getService() != null && item.getService().getId() != null) {
+                    LaundryService service = serviceService.getServiceById(item.getService().getId())
+                            .orElseThrow(() -> new RuntimeException("Service not found: " + item.getService().getId()));
 
-    List<LaundryService> services = serviceIds.stream()
-            .map(id -> serviceService.getServiceById(id)
-            .orElseThrow(() -> new RuntimeException("Service not found: " + id)))
-            .toList();
-    order.setServices(services);
+                    item.setService(service);
 
-    // ربط كل OrderItem بالـ Order
-    for (OrderItem item : order.getOrderItems()) {
-        item.setOrder(order);
+                    // لو الكمية <= 0 نخليها 1
+                    if (item.getQuantity() <= 0) {
+                        item.setQuantity(1);
+                    }
+
+                    // السعر = سعر الخدمة * الكمية
+                    item.setPrice(service.getPrice() * item.getQuantity());
+                }
+
+                // ربط الـ OrderItem بالـ Order
+                item.setOrder(order);
+            }
+        }
+
+        Order savedOrder = orderService.createOrder(order);
+        return ResponseEntity.ok(savedOrder);
     }
-
-    Order savedOrder = orderService.createOrder(order);
-    return ResponseEntity.ok(savedOrder);
-}
-
 
     // 🔹 تحديث طلب
     @PutMapping("/update/{id}")
-    public ResponseEntity<?> updateOrder(@PathVariable Long id, @RequestBody Order updatedOrder) {
+    public ResponseEntity<Order> updateOrder(@PathVariable Long id, @RequestBody Order updatedOrder) {
+
+        if (updatedOrder.getOrderItems() != null) {
+            for (OrderItem item : updatedOrder.getOrderItems()) {
+                if (item.getService() != null && item.getService().getId() != null) {
+                    LaundryService service = serviceService.getServiceById(item.getService().getId())
+                            .orElseThrow(() -> new RuntimeException("Service not found: " + item.getService().getId()));
+                    item.setService(service);
+
+                    if (item.getQuantity() <= 0) {
+                        item.setQuantity(1);
+                    }
+                    item.setPrice(service.getPrice() * item.getQuantity());
+                }
+            }
+        }
+
         Order order = orderService.updateOrder(id, updatedOrder);
         if (order != null) return ResponseEntity.ok(order);
         return ResponseEntity.notFound().build();
