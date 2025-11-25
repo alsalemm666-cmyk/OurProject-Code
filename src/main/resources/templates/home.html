@@ -6,13 +6,19 @@
     <title th:text="${pageTitle} ?: 'الصفحة الرئيسية'">الصفحة الرئيسية</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<<<<<<< HEAD
     <style>
         /* ==================== 1. تنسيقات BODY والخلفية ==================== */
+=======
+    <link rel="icon" type="image/png" th:href="@{/img/logoo.png}">
+    <style>
+>>>>>>> d3e141aa6829950f13f2b6ba18b699f300c7c839
         body {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             display: flex;
+<<<<<<< HEAD
             flex-direction: column; /* لضمان أن الفوتر يلتصق بالأسفل */
         }
 
@@ -88,6 +94,30 @@
     <img th:src="@{/img/logo.jpg}" alt="شعار المغسلة" class="logo-img" />
    
 </h3>
+=======
+            flex-direction: column;
+        }
+        .app-header { background-color: #3f51b5; box-shadow: 0 2px 10px rgba(0,0,0,0.2); padding:1rem 0; margin-bottom:2rem; }
+        .hero-section { background: rgba(255,255,255,0.9); border-radius:15px; padding:3rem; box-shadow:0 10px 30px rgba(0,0,0,0.1); }
+        .welcome-text { color:#333; font-size:2.5rem; font-weight:bold; }
+        .subtitle { color:#666; font-size:1.2rem; margin-bottom:2rem; }
+        .btn-primary { background: linear-gradient(45deg,#007bff,#0056b3); border:none; border-radius:25px; padding:0.75rem 2rem; font-size:1.1rem; transition: transform 0.2s; }
+        .card { border:none; border-radius:15px; box-shadow:0 5px 15px rgba(0,0,0,0.1); background: rgba(255,255,255,0.95); }
+        .list-group-item { background: #f8f9fa; }
+        .app-footer { background-color: rgba(0,0,0,0.2); border-top:1px solid rgba(255,255,255,0.1); color: rgba(255,255,255,0.8); padding-top:2rem !important; }
+        .app-footer a { color: rgba(255,255,255,0.75); }
+        .app-footer a:hover { color: #ffffff; }
+        .social-icon { font-size:1.5rem; margin:0 0.5rem; }
+        .logo-img { max-width: 300px; }
+    </style>
+</head>
+<body class="d-flex flex-column min-vh-100"> 
+    <header class="app-header">
+        <div class="container d-flex justify-content-between align-items-center">
+            <h3 class="m-0 text-white">
+                <img th:src="@{/img/logo.png}" alt="شعار المغسلة" class="logo-img" />
+            </h3>
+>>>>>>> d3e141aa6829950f13f2b6ba18b699f300c7c839
             <nav>
                 <a th:href="@{/home}" class="text-white mx-2 text-decoration-none">الرئيسية</a>
                 <a th:href="@{/services}" class="text-white mx-2 text-decoration-none">الخدمات</a>
@@ -96,6 +126,7 @@
             </nav>
         </div>
     </header>
+<<<<<<< HEAD
     <main class="flex-grow-1">
         <section class="container my-5">
             
@@ -114,6 +145,26 @@
                 </a>
             </div>
 
+=======
+
+    <main class="flex-grow-1">
+        <section class="container my-5">
+            <div class="hero-section text-center">
+                <h2 class="welcome-text">
+                    <i class="fas fa-hand-wave icon"></i>
+                    مرحبًا <span th:text="${user != null ? user.name : 'الضيف'}"></span>
+                </h2>
+                <p class="subtitle">
+                    <i class="fas fa-tshirt icon"></i>
+                    نظام إدارة المغاسل - تتبع طلباتك بكل سهولة
+                </p>
+                <a th:href="@{/orders/create}" class="btn btn-primary">
+                    <i class="fas fa-plus-circle icon"></i>
+                    إنشاء طلب جديد
+                </a>
+            </div>
+
+>>>>>>> d3e141aa6829950f13f2b6ba18b699f300c7c839
             <div class="card shadow-sm mt-5">
                 <div class="card-body">
                     <h5>
@@ -127,12 +178,20 @@
                     <ul class="list-group" th:each="order : ${orders}">
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                             <div>
+<<<<<<< HEAD
                                 <strong th:text="'طلب #' + ${order.id}"></strong> —
                                 <span th:text="${order.status}" class="badge bg-secondary">قيد التنفيذ</span>
                             </div>
                             <a th:href="@{/orders/{id}(id=${order.id})}" class="btn btn-sm btn-outline-secondary">
                                 <i class="fas fa-eye icon"></i>
                                 عرض التفاصيل
+=======
+                                <strong th:text="'طلب #' + ${order.id}"></strong> — 
+                                <span th:text="${order.status}" class="badge bg-secondary">قيد التنفيذ</span>
+                            </div>
+                            <a th:href="@{/orders/{id}(id=${order.id})}" class="btn btn-sm btn-outline-secondary">
+                                <i class="fas fa-eye icon"></i> عرض التفاصيل
+>>>>>>> d3e141aa6829950f13f2b6ba18b699f300c7c839
                             </a>
                         </li>
                     </ul>
@@ -140,13 +199,18 @@
             </div>
         </section>
     </main>
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> d3e141aa6829950f13f2b6ba18b699f300c7c839
     <footer class="app-footer pt-5 pb-3 mt-auto">
         <div class="container">
             <div class="row">
                 <div class="col-md-4 mb-4">
                     <h5>نظام إدارة المغاسل</h5>
                     <p class="small">
+<<<<<<< HEAD
                         تطبيق متكامل لتتبع وإدارة طلبات المغاسل بكل سهولة وسرعة، مع واجهة مستخدم عصرية وأنيقة.
                     </p>
                 </div>
@@ -154,6 +218,11 @@
                     
                     
                 </div>
+=======
+                        تطبيق متكامل لتتبع وإدارة طلبات المغاسل بكل سهولة وسرعة.
+                    </p>
+                </div>
+>>>>>>> d3e141aa6829950f13f2b6ba18b699f300c7c839
                 <div class="col-md-5 mb-4">
                     <h5>تواصل معنا</h5>
                     <ul class="list-unstyled small">
@@ -176,5 +245,10 @@
             </div>
         </div>
     </footer>
+<<<<<<< HEAD
     </body>
 </html>
+=======
+</body>
+</html>
+>>>>>>> d3e141aa6829950f13f2b6ba18b699f300c7c839

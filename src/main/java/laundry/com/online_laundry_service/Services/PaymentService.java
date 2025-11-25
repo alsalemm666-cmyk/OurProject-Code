@@ -22,10 +22,14 @@ public class PaymentService {
         return paymentRepository.findById(id);
     }
 
-    public Payment createPayment(Payment payment) {
-        payment.setPaymentDate(java.time.LocalDate.now());
-        return paymentRepository.save(payment);
+public Payment createPayment(Payment payment) {
+    if (payment.getOrder() == null) {
+        throw new RuntimeException("Payment must have an order");
     }
+    payment.setPaymentDate(java.time.LocalDate.now());
+    return paymentRepository.save(payment);
+}
+
 
     public void deletePayment(Long id) {
         paymentRepository.deleteById(id);

@@ -11,13 +11,14 @@ import laundry.com.online_laundry_service.Entities.Role;
 import laundry.com.online_laundry_service.Entities.User;
 import laundry.com.online_laundry_service.Repositories.Userrepository;
 import laundry.com.online_laundry_service.DTO.UserDTO;
+import laundry.com.online_laundry_service.DTO.UserResponseDTO;
 import laundry.com.online_laundry_service.DTO.LoginDTO;
 
 @Service
 public class Userservice {
 
     @Autowired
-    private Userrepository userrepository;
+    public Userrepository userrepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -31,9 +32,11 @@ public class Userservice {
         return userrepository.findAll();
     }
 
-    public Optional<User> getUserById(Long id) {
-        return userrepository.findById(id);
-    }
+public Optional<User> getUserById(Long id) {
+    return userrepository.findById(id);
+}
+
+
 
     public User updateUser(Long id, User updatedUser) {
         Optional<User> existingUser = userrepository.findById(id);
@@ -52,6 +55,10 @@ public class Userservice {
     public void deleteUser(Long id) {
         userrepository.deleteById(id);
     }
+    public User getUserByEmail(String email) {
+    return userrepository.findByEmail(email);
+}
+
 
     // =================== Auth جديد ===================
     public String registerUser(UserDTO userDTO) {
@@ -70,14 +77,14 @@ public class Userservice {
     }
 
     public User register(User user) {
-    user.setPassword(passwordEncoder.encode(user.getPassword()));
-    return userrepository.save(user);
-}
-
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        return userrepository.save(user);
+    }
 
     public String loginUser(LoginDTO loginDTO) {
         User user = userrepository.findByEmail(loginDTO.getEmail());
-        if (user == null) return "Email not found";
+        if (user == null)
+            return "Email not found";
 
         if (!passwordEncoder.matches(loginDTO.getPassword(), user.getPassword())) {
             return "Incorrect password";
@@ -85,4 +92,14 @@ public class Userservice {
 
         return "Login successful";
     }
+
+    // في داخل Userservice
+    public UserResponseDTO toDTO(User user) {
+        return new UserResponseDTO(
+                user.getId(),
+                user.getName(),
+                user.getEmail(),
+                user.getRole());
+    }
+
 }

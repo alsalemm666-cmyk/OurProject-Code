@@ -23,7 +23,6 @@ public class Order {
 
 @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
 private Payment payment;
-;
 
     @ManyToMany
     @JoinTable(
