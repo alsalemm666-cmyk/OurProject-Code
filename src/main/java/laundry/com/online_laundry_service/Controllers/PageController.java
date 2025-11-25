@@ -3,6 +3,7 @@ package laundry.com.online_laundry_service.Controllers;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import java.util.Collections;
 
 @Controller
 public class PageController {
@@ -10,9 +11,11 @@ public class PageController {
     // الصفحة الرئيسية
     @GetMapping("/home")
     public String home(Model model) {
-        // ممكن تمرر بيانات لاحقاً مثل اسم المستخدم أو الطلبات
         model.addAttribute("pageTitle", "الصفحة الرئيسية");
-        return "home"; // يفتح home.html من templates
+        // عشان الـ home.html ما يطيح في مشكلة لو استخدم ${user} و ${orders}
+        model.addAttribute("user", null);
+        model.addAttribute("orders", Collections.emptyList());
+        return "home";
     }
 
     // صفحة تسجيل الدخول
@@ -23,11 +26,13 @@ public class PageController {
     }
 
     // صفحة التسجيل
-    @GetMapping("/register")
-    public String registerPage(Model model) {
-        model.addAttribute("pageTitle", "إنشاء حساب");
-        return "register";
-    }
+@GetMapping("/register")
+public String registerPage(Model model) {
+    model.addAttribute("pageTitle", "إنشاء حساب");
+    return "register";
+}
+
+
 
     // صفحة الخدمات
     @GetMapping("/services")

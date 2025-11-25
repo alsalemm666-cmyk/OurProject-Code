@@ -33,7 +33,8 @@ public class ServiceController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<LaundryService> updateService(@PathVariable Long id, @RequestBody LaundryService serviceDetails) {
+    public ResponseEntity<LaundryService> updateService(@PathVariable Long id,
+                                                        @RequestBody LaundryService serviceDetails) {
         LaundryService updatedService = serviceService.updateService(id, serviceDetails);
         if (updatedService != null) {
             return ResponseEntity.ok(updatedService);

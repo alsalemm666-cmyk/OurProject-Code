@@ -10,64 +10,38 @@ public class OrderItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String itemType;
-    private double price;
     private int quantity;
+    private double price; // السعر النهائي = service.price * quantity
 
-    // العلاقة الصحيحة مع Order
     @ManyToOne
     @JoinColumn(name = "order_id")
     private Order order;
 
-    // 🔹 Constructors
-    public OrderItem() {
-    }
+    @ManyToOne
+    @JoinColumn(name = "service_id")
+    private LaundryService service;
 
-    public OrderItem(String itemType, double price, int quantity, Order order) {
-        this.itemType = itemType;
-        this.price = price;
+    public OrderItem() {}
+
+    public OrderItem(int quantity, double price, LaundryService service, Order order) {
         this.quantity = quantity;
+        this.price = price;
+        this.service = service;
         this.order = order;
     }
 
-    // 🔹 Getters & Setters
-    public Long getId() {
-        return id;
-    }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public int getQuantity() { return quantity; }
+    public void setQuantity(int quantity) { this.quantity = quantity; }
 
-    public String getItemType() {
-        return itemType;
-    }
+    public double getPrice() { return price; }
+    public void setPrice(double price) { this.price = price; }
 
-    public void setItemType(String itemType) {
-        this.itemType = itemType;
-    }
+    public Order getOrder() { return order; }
+    public void setOrder(Order order) { this.order = order; }
 
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
-    public Order getOrder() {
-        return order;
-    }
-
-    public void setOrder(Order order) {
-        this.order = order;
-    }
+    public LaundryService getService() { return service; }
+    public void setService(LaundryService service) { this.service = service; }
 }

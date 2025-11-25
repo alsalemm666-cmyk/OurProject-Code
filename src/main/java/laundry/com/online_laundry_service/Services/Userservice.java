@@ -10,21 +10,29 @@ import org.springframework.stereotype.Service;
 import laundry.com.online_laundry_service.Entities.Role;
 import laundry.com.online_laundry_service.Entities.User;
 import laundry.com.online_laundry_service.Repositories.Userrepository;
-import laundry.com.online_laundry_service.DTO.UserDTO;
-import laundry.com.online_laundry_service.DTO.UserResponseDTO;
 import laundry.com.online_laundry_service.DTO.LoginDTO;
+import laundry.com.online_laundry_service.DTO.UserResponseDTO;
 
 @Service
 public class Userservice {
 
     @Autowired
-    public Userrepository userrepository;
+    private Userrepository userrepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    // =================== CRUD القديم ===================
+    // =================== CRUD ===================
+
+    // لو تحتاج إنشاء مستخدم عام (يفضل تستخدم register للحسابات)
     public User createUser(User user) {
+        // نتأكد أن كلمة المرور مشفّرة
+        if (user.getPassword() != null && !user.getPassword().isBlank()) {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+        }
+        if (user.getRole() == null) {
+            user.setRole(Role.CUSTOMER);
+        }
         return userrepository.save(user);
     }
 
@@ -32,68 +40,77 @@ public class Userservice {
         return userrepository.findAll();
     }
 
-public Optional<User> getUserById(Long id) {
-    return userrepository.findById(id);
-}
-
-
+    public Optional<User> getUserById(Long id) {
+        return userrepository.findById(id);
+    }
 
     public User updateUser(Long id, User updatedUser) {
-        Optional<User> existingUser = userrepository.findById(id);
-        if (existingUser.isPresent()) {
-            User user = existingUser.get();
-            user.setName(updatedUser.getName());
-            user.setEmail(updatedUser.getEmail());
-            user.setPassword(updatedUser.getPassword());
-            user.setRole(updatedUser.getRole());
-            return userrepository.save(user);
-        } else {
-            return null;
-        }
+        return userrepository.findById(id)
+                .map(user -> {
+                    if (updatedUser.getName() != null && !updatedUser.getName().isBlank()) {
+                        user.setName(updatedUser.getName());
+                    }
+                    if (updatedUser.getEmail() != null && !updatedUser.getEmail().isBlank()) {
+                        user.setEmail(updatedUser.getEmail());
+                    }
+                    // تحديث كلمة المرور مع تشفيرها فقط إذا المستخدم أدخل كلمة جديدة
+                    if (updatedUser.getPassword() != null && !updatedUser.getPassword().isBlank()) {
+                        user.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
+                    }
+                    if (updatedUser.getRole() != null) {
+                        user.setRole(updatedUser.getRole());
+                    }
+                    return userrepository.save(user);
+                })
+                .orElse(null);
     }
 
     public void deleteUser(Long id) {
         userrepository.deleteById(id);
     }
+
     public User getUserByEmail(String email) {
-    return userrepository.findByEmail(email);
-}
-
-
-    // =================== Auth جديد ===================
-    public String registerUser(UserDTO userDTO) {
-        if (userrepository.findByEmail(userDTO.getEmail()) != null) {
-            return "Email already exists";
-        }
-
-        User user = new User();
-        user.setName(userDTO.getName());
-        user.setEmail(userDTO.getEmail());
-        user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
-        user.setRole(Role.CUSTOMER);
-        userrepository.save(user);
-
-        return "User registered successfully";
+        return userrepository.findByEmail(email);
     }
 
+    // =================== AUTH ===================
+
+    /** تسجيل مستخدم جديد (عميل أو عامل... حسب الدور اللي ينحط قبل النداء) */
     public User register(User user) {
+
+        // منع تكرار الإيميل
+        if (userrepository.findByEmail(user.getEmail()) != null) {
+            throw new IllegalArgumentException("Email already exists");
+        }
+
+        // إذا ما تم تعيين role من الكنترولر نخليه CUSTOMER افتراضي
+        if (user.getRole() == null) {
+            user.setRole(Role.CUSTOMER);
+        }
+
+        // تشفير الباسورد
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+
         return userrepository.save(user);
     }
 
-    public String loginUser(LoginDTO loginDTO) {
+    /** مصادقة المستخدم (تسجيل الدخول) */
+    public User authenticate(LoginDTO loginDTO) {
         User user = userrepository.findByEmail(loginDTO.getEmail());
-        if (user == null)
-            return "Email not found";
-
-        if (!passwordEncoder.matches(loginDTO.getPassword(), user.getPassword())) {
-            return "Incorrect password";
+        if (user == null) {
+            return null;
         }
 
-        return "Login successful";
+        boolean matches = passwordEncoder.matches(loginDTO.getPassword(), user.getPassword());
+        if (!matches) {
+            return null;
+        }
+
+        return user;
     }
 
-    // في داخل Userservice
+    // =================== DTO Conversion ===================
+
     public UserResponseDTO toDTO(User user) {
         return new UserResponseDTO(
                 user.getId(),
@@ -101,5 +118,4 @@ public Optional<User> getUserById(Long id) {
                 user.getEmail(),
                 user.getRole());
     }
-
 }

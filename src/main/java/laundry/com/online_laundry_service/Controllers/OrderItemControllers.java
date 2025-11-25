@@ -15,15 +15,22 @@ public class OrderItemControllers {
 
     private final OrderItemServices service;
 
-    @GetMapping public List<OrderItem> getAll() { return service.getAll(); }
+    @GetMapping
+    public List<OrderItem> getAll() {
+        return service.getAll();
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<OrderItem> getById(@PathVariable Long id) {
-        return service.getById(id).map(ResponseEntity::ok)
-                      .orElse(ResponseEntity.notFound().build());
+        return service.getById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
-    @PostMapping public OrderItem create(@RequestBody OrderItem item) { return service.save(item); }
+    @PostMapping
+    public OrderItem create(@RequestBody OrderItem item) {
+        return service.save(item);
+    }
 
     @PutMapping("/{id}")
     public ResponseEntity<OrderItem> update(@PathVariable Long id, @RequestBody OrderItem item) {
@@ -33,7 +40,8 @@ public class OrderItemControllers {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
-        return service.delete(id) ? ResponseEntity.noContent().build()
-                                  : ResponseEntity.notFound().build();
+        return service.delete(id)
+                ? ResponseEntity.noContent().build()
+                : ResponseEntity.notFound().build();
     }
 }

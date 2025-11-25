@@ -112,6 +112,7 @@
     </style>
 </head>
 <body class="d-flex flex-column min-vh-100"> 
+<<<<<<< HEAD
     <header class="app-header">
         <div class="container d-flex justify-content-between align-items-center">
             <h3 class="m-0 text-white">
@@ -146,13 +147,39 @@
             </div>
 
 =======
+=======
+<header class="app-header">
+    <div class="container d-flex justify-content-between align-items-center">
+        <h3 class="m-0 text-white">
+            <img th:src="@{/img/logo.png}" alt="شعار المغسلة" class="logo-img" />
+        </h3>
+
+        <nav>
+            <a href="/home" class="text-white mx-2 text-decoration-none">الرئيسية</a>
+            <a href="/services" class="text-white mx-2 text-decoration-none">الخدمات</a>
+            <a href="/orders/create" class="text-white mx-2 text-decoration-none">إنشاء طلب</a>
+
+            <!-- أزرار قبل تسجيل الدخول -->
+            <a id="loginBtn" href="/login" class="btn btn-light btn-sm mx-2">تسجيل الدخول</a>
+            <a id="registerBtn" href="/register" class="btn btn-outline-light btn-sm mx-2">إنشاء حساب</a>
+
+            <!-- يظهر فقط بعد تسجيل الدخول -->
+            <a id="profileMenu" href="/profile" class="d-none">
+                <img src="/img/user.png" class="rounded-circle" width="40" height="40" />
+            </a>
+            <button id="logoutBtn" class="btn btn-danger btn-sm mx-2 d-none">تسجيل الخروج</button>
+        </nav>
+    </div>
+</header>
+
+>>>>>>> 2bbfd9681a16c54be04a93ac273b79c2a1c2705e
 
     <main class="flex-grow-1">
         <section class="container my-5">
             <div class="hero-section text-center">
                 <h2 class="welcome-text">
                     <i class="fas fa-hand-wave icon"></i>
-                    مرحبًا <span th:text="${user != null ? user.name : 'الضيف'}"></span>
+                    مرحبًا <span id="usernameDisplay">الضيف</span>
                 </h2>
                 <p class="subtitle">
                     <i class="fas fa-tshirt icon"></i>
@@ -246,9 +273,47 @@
         </div>
     </footer>
 <<<<<<< HEAD
+<<<<<<< HEAD
     </body>
 </html>
 =======
+=======
+<script>
+    // قراءة المستخدم من localStorage
+    const user = JSON.parse(localStorage.getItem("user"));
+
+    const usernameDisplay = document.getElementById("usernameDisplay");
+    const loginBtn = document.getElementById("loginBtn");
+    const registerBtn = document.getElementById("registerBtn");
+    const profileMenu = document.getElementById("profileMenu");
+    const logoutBtn = document.getElementById("logoutBtn");
+
+    if (user) {
+        // عرض الاسم
+        usernameDisplay.textContent = user.name;
+
+        // إخفاء أزرار تسجيل الدخول
+        loginBtn.classList.add("d-none");
+        registerBtn.classList.add("d-none");
+
+        // إظهار صورة البروفايل وزر تسجيل الخروج
+        profileMenu.classList.remove("d-none");
+        logoutBtn.classList.remove("d-none");
+    } else {
+        usernameDisplay.textContent = "الضيف";
+    }
+
+    // زر تسجيل الخروج
+    logoutBtn.addEventListener("click", function () {
+        // حذف بيانات المستخدم
+        localStorage.removeItem("user");
+
+        // توجيه المستخدم لصفحة تسجيل الدخول
+        window.location.href = "/login";
+    });
+</script>
+
+>>>>>>> 2bbfd9681a16c54be04a93ac273b79c2a1c2705e
 </body>
 </html>
 >>>>>>> d3e141aa6829950f13f2b6ba18b699f300c7c839
