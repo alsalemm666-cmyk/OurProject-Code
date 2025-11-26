@@ -8,91 +8,13 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link rel="icon" type="image/png" th:href="@{/img/logoo.png}">
+
     <style>
->>>>>>> d3e141aa6829950f13f2b6ba18b699f300c7c839
         body {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             display: flex;
-<<<<<<< HEAD
-            flex-direction: column; /* لضمان أن الفوتر يلتصق بالأسفل */
-        }
-
-        /* ==================== 2. تنسيقات الـ Header ==================== */
-        .app-header {
-            background-color: #3f51b5; /* لون مختلف لتمييز الرأس */
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-            padding: 1rem 0;
-            margin-bottom: 2rem;
-        }
-
-        /* ==================== 3. تنسيقات الـ Home Page ==================== */
-        .hero-section {
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 15px;
-            padding: 3rem;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-        }
-        .welcome-text {
-            color: #333;
-            font-size: 2.5rem;
-            font-weight: bold;
-        }
-        .subtitle {
-            color: #666;
-            font-size: 1.2rem;
-            margin-bottom: 2rem;
-        }
-        .btn-primary {
-            background: linear-gradient(45deg, #007bff, #0056b3);
-            border: none;
-            border-radius: 25px;
-            padding: 0.75rem 2rem;
-            font-size: 1.1rem;
-            transition: transform 0.2s;
-        }
-        .card {
-            border: none;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            background: rgba(255, 255, 255, 0.95);
-        }
-        .list-group-item {
-            background: #f8f9fa;
-        }
-
-
-        /* ==================== 4. تنسيقات الـ Footer (مدمجة) ==================== */
-        .app-footer {
-            background-color: rgba(0, 0, 0, 0.2); 
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            color: rgba(255, 255, 255, 0.8);
-            padding-top: 2rem !important; 
-        }
-        .app-footer a {
-            color: rgba(255, 255, 255, 0.75);
-        }
-        .app-footer a:hover {
-            color: #ffffff;
-        }
-        .social-icon {
-            font-size: 1.5rem;
-            margin: 0 0.5rem;
-        }
-    </style>
-</head>
-=
-<body class="d-flex flex-column min-vh-100"> 
-    
-    <header class="app-header">
-        <div class="container d-flex justify-content-between align-items-center">
-           <h3 class="m-0 text-white">
-    <img th:src="@{/img/logo.jpg}" alt="شعار المغسلة" class="logo-img" />
-   
-</h3>
-=======
             flex-direction: column;
         }
 
@@ -140,12 +62,16 @@
         }
     </style>
 </head>
-<body class="d-flex flex-column min-vh-100"> 
-<header class="app-header">
-    <div class="container d-flex justify-content-between align-items-center">
-        <h3 class="m-0 text-white">
-            <img th:src="@{/img/logo.png}" alt="شعار المغسلة" class="logo-img" />
-        </h3>
+
+<body class="d-flex flex-column min-vh-100">
+
+    <!-- ============ HEADER ============ -->
+    <header class="app-header">
+        <div class="container d-flex justify-content-between align-items-center">
+
+            <h3 class="m-0 text-white">
+                <img th:src="@{/img/logo.png}" alt="شعار المغسلة" class="logo-img" />
+            </h3>
 
             <nav class="d-flex align-items-center">
 
@@ -170,7 +96,7 @@
         </div>
     </header>
 
-
+    <!-- ============ MAIN CONTENT ============ -->
     <main class="flex-grow-1">
         <section class="container my-5">
 
@@ -186,66 +112,17 @@
                 </a>
             </div>
 
-            <div class="card shadow-sm mt-5">
-                <div class="card-body">
-                    <h5>
-                        <i class="fas fa-list icon"></i>
-                        الطلبات الأخيرة
-                    </h5>
-                    <div th:if="${orders == null or orders.size() == 0}" class="no-orders">
-                        <i class="fas fa-inbox fa-3x mb-3"></i><br>
-                        لا توجد طلبات حالياً.
-                    </div>
-                    <ul class="list-group" th:each="order : ${orders}">
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            <div>
-                                <strong th:text="'طلب #' + ${order.id}"></strong> — 
-                                <span th:text="${order.status}" class="badge bg-secondary">قيد التنفيذ</span>
-                            </div>
-                            <a th:href="@{/orders/{id}(id=${order.id})}" class="btn btn-sm btn-outline-secondary">
-                                <i class="fas fa-eye icon"></i> عرض التفاصيل
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
         </section>
     </main>
 
-    <footer class="app-footer pt-5 pb-3 mt-auto">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-4 mb-4">
-                    <h5>نظام إدارة المغاسل</h5>
-                    <p class="small">
-                        تطبيق متكامل لتتبع وإدارة طلبات المغاسل بكل سهولة وسرعة.
-                    </p>
-                </div>
-                <div class="col-md-5 mb-4">
-                    <h5>تواصل معنا</h5>
-                    <ul class="list-unstyled small">
-                        <li><i class="fas fa-map-marker-alt me-2"></i> المملكة العربية السعودية</li>
-                        <li><i class="fas fa-envelope me-2"></i> info@laundryapp.com</li>
-                        <li><i class="fas fa-phone me-2"></i> +966 50 XXX XXXX</li>
-                    </ul>
-                    <div class="mt-3">
-                        <a href="#" class="social-icon text-white"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="social-icon text-white"><i class="fab fa-instagram"></i></a>
-                        <a href="#" class="social-icon text-white"><i class="fab fa-whatsapp"></i></a>
-                    </div>
-                </div>
-            </div>
-            <hr class="mt-2 mb-3" style="border-color: rgba(255, 255, 255, 0.3);">
-            <div class="row">
-                <div class="col-12 text-center small">
-                    &copy; <span th:text="${#dates.format(#dates.createNow(), 'yyyy')}">2025</span> جميع الحقوق محفوظة لنظام المغاسل الذكي.
-                </div>
-            </div>
-        </div>
+    <!-- ============ FOOTER ============ -->
+    <footer class="app-footer pt-5 pb-3 mt-auto text-white text-center">
+        جميع الحقوق محفوظة © 2025
     </footer>
-<script>
-    // قراءة المستخدم من localStorage
-    const user = JSON.parse(localStorage.getItem("user"));
+
+    <!-- ============ SCRIPT ============ -->
+    <script>
+        const user = JSON.parse(localStorage.getItem("user"));
 
         const usernameDisplay = document.getElementById("usernameDisplay");
         const loginBtn = document.getElementById("loginBtn");
@@ -279,7 +156,5 @@
         };
     </script>
 
->>>>>>> 2bbfd9681a16c54be04a93ac273b79c2a1c2705e
 </body>
 </html>
->>>>>>> d3e141aa6829950f13f2b6ba18b699f300c7c839

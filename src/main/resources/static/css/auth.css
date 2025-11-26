@@ -1,0 +1,21 @@
+/* ============================
+   Login & Register Pages
+============================ */
+
+.auth-card {
+    max-width: 500px;
+    margin: auto;
+    background: #ffffffee;
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+}
+
+.auth-title {
+    font-weight: bold;
+    font-size: 2rem;
+}
+
+.input-group-text {
+    background-color: #e8e8e8;
+}

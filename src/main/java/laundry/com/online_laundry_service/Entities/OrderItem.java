@@ -11,7 +11,7 @@ public class OrderItem {
     private Long id;
 
     private int quantity;
-    private double price; // السعر النهائي = service.price * quantity
+    private double price; // service.price * quantity
 
     @ManyToOne
     @JoinColumn(name = "order_id")
@@ -22,13 +22,6 @@ public class OrderItem {
     private LaundryService service;
 
     public OrderItem() {}
-
-    public OrderItem(int quantity, double price, LaundryService service, Order order) {
-        this.quantity = quantity;
-        this.price = price;
-        this.service = service;
-        this.order = order;
-    }
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
