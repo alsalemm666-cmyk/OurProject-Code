@@ -118,4 +118,8 @@ public class Userservice {
                 user.getEmail(),
                 user.getRole());
     }
+    public User save(User user) {
+    return userrepository.save(user);
+}
+
 }

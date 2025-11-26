@@ -26,13 +26,11 @@ public class PageController {
     }
 
     // صفحة التسجيل
-@GetMapping("/register")
-public String registerPage(Model model) {
-    model.addAttribute("pageTitle", "إنشاء حساب");
-    return "register";
-}
-
-
+    @GetMapping("/register")
+    public String registerPage(Model model) {
+        model.addAttribute("pageTitle", "إنشاء حساب");
+        return "register";
+    }
 
     // صفحة الخدمات
     @GetMapping("/services")
@@ -47,4 +45,10 @@ public String registerPage(Model model) {
         model.addAttribute("pageTitle", "إنشاء طلب");
         return "order_create";
     }
+
+    @GetMapping("/profile")
+    public String profilePage() {
+        return "profile";
+    }
+
 }

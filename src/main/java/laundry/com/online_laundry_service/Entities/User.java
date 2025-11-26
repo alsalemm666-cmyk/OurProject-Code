@@ -30,6 +30,9 @@ public class User {
     @Column(nullable = false)
     private Role role;
 
+    private String profileImage;
+
+
     // Getters & Setters
     public Long getId() { return this.id; }
     public void setId(Long id) { this.id = id; }
@@ -45,4 +48,7 @@ public class User {
 
     public Role getRole() { return this.role; }
     public void setRole(Role role) { this.role = role; }
+    public String getProfileImage() { return profileImage; }
+public void setProfileImage(String profileImage) { this.profileImage = profileImage; }
+
 }

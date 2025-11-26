@@ -1,10 +1,15 @@
 package laundry.com.online_laundry_service.Controllers;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
 import jakarta.validation.Valid;
 import org.springframework.validation.BindingResult;
 
@@ -26,7 +31,6 @@ public class Usercontroller {
     @PostMapping("/create")
     public ResponseEntity<UserResponseDTO> createUser(@Valid @RequestBody User user, BindingResult result) {
         if (result.hasErrors()) {
-            String msg = result.getAllErrors().get(0).getDefaultMessage();
             return ResponseEntity.badRequest().build();
         }
         User saved = userService.createUser(user);
@@ -114,4 +118,27 @@ public class Usercontroller {
         // نرجع بيانات المستخدم بدون الباسورد
         return ResponseEntity.ok(userService.toDTO(user));
     }
+@PostMapping("/upload-image/{id}")
+public ResponseEntity<?> uploadImage(@PathVariable Long id,
+                                     @RequestParam("image") MultipartFile file) {
+    try {
+        User user = userService.getUserById(id).orElse(null);
+        if (user == null) return ResponseEntity.notFound().build();
+
+        // حفظ الصورة داخل مجلد static
+        String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
+        Path path = Paths.get("src/main/resources/static/uploads/" + fileName);
+        Files.createDirectories(path.getParent());
+        Files.write(path, file.getBytes());
+
+        // تخزين الرابط داخل قاعدة البيانات
+        user.setProfileImage("/uploads/" + fileName);
+        userService.save(user);
+
+        return ResponseEntity.ok(user.getProfileImage());
+    } catch (Exception e) {
+        return ResponseEntity.status(500).body("Error uploading image");
+    }
+}
+
 }

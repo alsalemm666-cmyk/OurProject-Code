@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الملف الشخصي</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background: #f0f2f5;
+            font-family: 'Tahoma';
+        }
+
+        .profile-container {
+            max-width: 800px;
+            margin: 50px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .profile-img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #3f51b5;
+        }
+
+        .upload-btn {
+            margin-top: 10px;
+        }
+
+        .pointer {
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container profile-container">
+
+    <h3 class="text-center mb-4">👤 الملف الشخصي</h3>
+
+    <!-- صورة الملف -->
+    <div class="text-center">
+        <img id="profileImage"
+             src="https://cdn-icons-png.flaticon.com/512/3177/3177440.png"
+             class="profile-img"
+             alt="صورة المستخدم">
+
+        <br>
+
+        <input type="file" id="imageInput" class="form-control mt-3" accept="image/*">
+        <button class="btn btn-primary btn-sm upload-btn" id="uploadImageBtn">رفع صورة جديدة</button>
+    </div>
+
+    <hr>
+
+    <!-- معلومات المستخدم -->
+    <form id="updateForm">
+
+        <div class="mb-3">
+            <label class="form-label">الاسم</label>
+            <input type="text" id="nameInput" class="form-control">
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">البريد الإلكتروني</label>
+            <input type="email" id="emailInput" class="form-control">
+        </div>
+
+        <button type="submit" class="btn btn-success w-100 mt-3">💾 حفظ التغييرات</button>
+
+    </form>
+
+    <hr>
+
+    <div class="text-center">
+        <a href="/orders" class="btn btn-secondary">عرض الطلبات السابقة</a>
+    </div>
+
+</div>
+
+
+<script>
+    // تحميل بيانات المستخدم من LocalStorage
+    let user = JSON.parse(localStorage.getItem("user"));
+
+    if (!user) {
+        alert("يجب تسجيل الدخول أولًا");
+        window.location.href = "/login";
+    }
+
+    // تعبئة الحقول
+    if (user.profileImage) {
+        document.getElementById("profileImage").src = user.profileImage;
+    }
+
+    document.getElementById("nameInput").value = user.name;
+    document.getElementById("emailInput").value = user.email;
+
+
+    // ======================= رفع صورة الملف الشخصي =======================
+    document.getElementById("uploadImageBtn").addEventListener("click", async function () {
+        const file = document.getElementById("imageInput").files[0];
+        if (!file) return alert("الرجاء اختيار صورة أولاً");
+
+        const formData = new FormData();
+        formData.append("image", file);
+
+        const response = await fetch(`/users/upload-image/${user.id}`, {
+            method: "POST",
+            body: formData
+        });
+
+        if (!response.ok) {
+            alert("حدث خطأ أثناء رفع الصورة");
+            return;
+        }
+
+        const imageUrl = await response.text();
+
+        // تحديث LocalStorage
+        user.profileImage = imageUrl;
+        localStorage.setItem("user", JSON.stringify(user));
+
+        // تحديث الواجهة
+        document.getElementById("profileImage").src = imageUrl;
+
+        alert("تم رفع الصورة بنجاح ✔");
+    });
+
+    // ======================= تعديل البيانات الأساسية =======================
+    document.getElementById("updateForm").addEventListener("submit", async function (e) {
+        e.preventDefault();
+
+        const updatedUser = {
+            ...user,
+            name: document.getElementById("nameInput").value,
+            email: document.getElementById("emailInput").value
+        };
+
+        const updateResponse = await fetch(`/users/update/${user.id}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(updatedUser)
+        });
+
+        if (!updateResponse.ok) {
+            alert("فشل تحديث البيانات");
+            return;
+        }
+
+        const newUserData = await updateResponse.json();
+
+        // تحديث LocalStorage
+        localStorage.setItem("user", JSON.stringify(newUserData));
+
+        alert("تم تحديث البيانات بنجاح ✔");
+    });
+
+</script>
+
+</body>
+
+</html>
