@@ -12,92 +12,11 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 
     <!-- Uiverse.io Style -->
-    <style>
-        body {
-            background: #f4f7ff;
-            font-family: 'Tajawal', sans-serif;
-        }
+    <link rel="stylesheet" href="https://unpkg.com/@uiverse.io/style.css">
 
-        .cart-container {
-            max-width: 900px;
-            margin: 50px auto;
-        }
+    <!-- Custom CSS -->
+    <link rel="stylesheet" th:href="@{/css/main.css}">
 
-        .cart-card {
-            background: white;
-            border-radius: 20px;
-            padding: 25px;
-            box-shadow: rgba(0, 0, 0, 0.05) 0px 8px 24px;
-            animation: fade 0.5s ease;
-        }
-
-        @keyframes fade {
-            from { opacity: 0; transform: translateY(10px);}
-            to { opacity: 1; transform: translateY(0);}
-        }
-
-        .cart-item {
-            background: #f9faff;
-            padding: 15px;
-            border-radius: 15px;
-            margin-bottom: 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: 0.3s;
-        }
-
-        .cart-item:hover {
-            background: #eef2ff;
-        }
-
-        .qty-btn {
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            background: #5567ff;
-            color: white;
-            border: none;
-            font-size: 18px;
-            transition: 0.2s;
-        }
-
-        .qty-btn:hover {
-            transform: scale(1.1);
-        }
-
-        .remove-btn {
-            background: none;
-            border: none;
-            color: red;
-            font-size: 20px;
-        }
-
-        .checkout-btn {
-            background: linear-gradient(135deg, #5567ff, #3649ff);
-            width: 100%;
-            padding: 15px;
-            border-radius: 15px;
-            color: white;
-            font-size: 18px;
-            border: none;
-            transition: 0.2s;
-        }
-
-        .checkout-btn:hover {
-            opacity: 0.8;
-        }
-
-        .empty-cart {
-            text-align: center;
-            padding: 50px;
-        }
-
-        .empty-cart i {
-            font-size: 60px;
-            color: #5567ff;
-        }
-    </style>
 </head>
 
 <body>

@@ -14,7 +14,7 @@ body {
     border: none;
     border-radius: 15px;
     background: #ffffffcc;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
 /* أزرار عامة */
@@ -39,13 +39,14 @@ img {
 .logo-img {
     max-width: 200px;
 }
+
 /* ============================
    Header Styles
 ============================ */
 
 .app-header {
     background-color: #3f51b5;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
     padding: 1rem 0;
 }
 
@@ -68,32 +69,61 @@ nav a:hover {
 .dropdown-menu {
     text-align: right;
 }
+
 /* ============================
    Home Page Styles
 ============================ */
+body {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    flex-direction: column;
+}
+
+.app-header {
+    background-color: #3f51b5;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    padding: 1rem 0;
+    margin-bottom: 2rem;
+}
 
 .hero-section {
-    background: #ffffffdd;
+    background: rgba(255, 255, 255, 0.9);
     border-radius: 15px;
     padding: 3rem;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
 
 .welcome-text {
-    font-size: 2.5rem;
     color: #333;
+    font-size: 2.5rem;
     font-weight: bold;
 }
 
 .subtitle {
-    font-size: 1.2rem;
     color: #666;
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
 }
 
-.no-orders {
-    text-align: center;
-    padding: 40px;
+.btn-primary {
+    background: linear-gradient(45deg, #007bff, #0056b3);
+    border: none;
+    border-radius: 25px;
+    padding: 0.75rem 2rem;
+    font-size: 1.1rem;
 }
+
+.logo-img {
+    max-width: 300px;
+}
+
+/* زر تسجيل الخروج */
+#logoutBtn {
+    display: none;
+}
+
 /* ============================
    Laundry Services Page
 ============================ */
@@ -102,13 +132,13 @@ nav a:hover {
     background: white;
     padding: 1.5rem;
     border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
     transition: 0.2s;
 }
 
 .service-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
 }
 
 .service-price {
@@ -116,13 +146,14 @@ nav a:hover {
     font-weight: bold;
     font-size: 1.2rem;
 }
+
 /* ============================
         Footer
 ============================ */
 
 .app-footer {
-    background-color: rgba(0,0,0,0.25);
-    color: rgba(255,255,255,0.8);
+    background-color: rgba(0, 0, 0, 0.25);
+    color: rgba(255, 255, 255, 0.8);
 }
 
 .app-footer a:hover {
@@ -131,4 +162,610 @@ nav a:hover {
 
 .social-icon {
     font-size: 1.5rem;
+}
+
+/* ============================
+   Profile Page
+============================ */
+
+.profile-container {
+    max-width: 800px;
+    margin: auto;
+}
+
+.profile-avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #3f51b5;
+}
+
+.profile-section {
+    background: #ffffffdd;
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* ==================== 1. تنسيقات BODY والخلفية ==================== */
+body {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ==================== 2. تنسيقات الـ Header (منقولة من home.html) ==================== */
+.app-header {
+    background-color: #3f51b5;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    padding: 1rem 0;
+    margin-bottom: 2rem;
+}
+
+.logo-img {
+    height: 30px;
+    margin-left: 10px;
+}
+
+
+/* ==================== 3. تنسيقات الصفحة (نموذج الطلب الشفاف) ==================== */
+.order-card {
+    background: rgba(255, 255, 255, 0.15);
+    /* خلفية شبه شفافة */
+    backdrop-filter: blur(5px);
+    padding: 3rem;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    max-width: 550px;
+    /* عرض مناسب للنموذج */
+    margin: auto;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #ffffff;
+}
+
+.order-card h2 {
+    color: #ffffff;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+}
+
+.form-control,
+.form-select {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    color: #ffffff;
+    border-radius: 10px;
+    box-shadow: none;
+}
+
+.form-control:focus,
+.form-select:focus {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: #ffffff;
+}
+
+.form-control::placeholder,
+.form-select option {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.btn-submit {
+    background: linear-gradient(45deg, #007bff, #0056b3);
+    border: none;
+    border-radius: 25px;
+    padding: 0.75rem 0;
+    font-size: 1.1rem;
+    transition: transform 0.2s;
+}
+
+.btn-submit:hover {
+    transform: scale(1.02);
+}
+
+/* ==================== 4. تنسيقات الـ Footer (مدمجة) ==================== */
+.app-footer {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.8);
+    padding-top: 2rem !important;
+}
+
+.app-footer h5,
+.app-footer p,
+.app-footer a {
+    color: #ffffff;
+}
+
+
+
+
+/*checkout*/
+
+/* خلفية عامة */
+.checkout-wrapper {
+    min-height: calc(100vh - 140px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 15px;
+    background: radial-gradient(circle at top, #8e9dff 0, transparent 60%),
+        radial-gradient(circle at bottom, #f3c6ff 0, transparent 60%);
+}
+
+/* الكارد الرئيسي (3 أعمدة) */
+.checkout-container {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+    max-width: 1150px;
+    width: 100%;
+    padding: 24px;
+}
+
+/* كارد زجاجي عام (مستوحى من uiverse) */
+.glass-card,
+.checkout-section {
+    background: rgba(255, 255, 255, 0.16);
+    border-radius: 22px;
+    box-shadow:
+        0 20px 40px rgba(0, 0, 0, 0.15),
+        0 0 0 1px rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    padding: 18px 20px;
+    color: #fff;
+}
+
+/* العناوين */
+.section-title {
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
+}
+
+.section-title i {
+    font-size: 1.2rem;
+}
+
+.section-subtitle {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 15px;
+}
+
+/* الحقول */
+.modern-input {
+    background: rgba(255, 255, 255, 0.16) !important;
+    border: 1px solid rgba(255, 255, 255, 0.4) !important;
+    color: #fff !important;
+    border-radius: 12px !important;
+}
+
+.modern-input::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* قائمة السلة */
+.cart-items-list {
+    max-height: 320px;
+    overflow-y: auto;
+    padding-right: 5px;
+}
+
+.cart-item-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 14px;
+    padding: 10px 12px;
+    margin-bottom: 8px;
+    background: rgba(0, 0, 0, 0.15);
+}
+
+.cart-item-main {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.cart-item-name {
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+.cart-item-qty {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.cart-item-price {
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+/* إجمالي */
+.checkout-total {
+    margin-top: 16px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(255, 255, 255, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-weight: 700;
+}
+
+/* خيارات الدفع (radio cards) */
+.payment-methods {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.payment-option {
+    cursor: pointer;
+}
+
+.payment-option input {
+    display: none;
+}
+
+.payment-option-card {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    padding: 10px 12px;
+    border-radius: 14px;
+    background: rgba(0, 0, 0, 0.18);
+    border: 1px solid transparent;
+    transition: 0.2s ease-in-out;
+}
+
+.payment-option-card i {
+    font-size: 1.4rem;
+}
+
+.payment-option-card strong {
+    font-size: 0.95rem;
+}
+
+.payment-option-card p {
+    margin: 0;
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.payment-option input:checked+.payment-option-card {
+    border-color: #6fffc4;
+    box-shadow: 0 0 0 1px rgba(115, 255, 199, 0.6);
+}
+
+/* زر تأكيد */
+.btn-confirm {
+    border-radius: 16px;
+    background: linear-gradient(135deg, #42e695, #3bb2b8);
+    border: none;
+    padding: 10px 16px;
+    font-weight: 600;
+    color: #003031;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.btn-confirm:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 14px 30px rgba(0, 0, 0, 0.25);
+}
+
+/* موبايل */
+@media (max-width: 992px) {
+    .checkout-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+
+
+/*register*/
+body {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.app-header {
+    background-color: #3f51b5;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    padding: 1rem 0;
+    margin-bottom: 2rem;
+}
+
+.logo-img {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.register-container {
+    flex: 1;
+    display: flex;
+    align-items: center;
+}
+
+.register-card {
+    background: rgba(255, 255, 255, 0.97);
+    border-radius: 18px;
+    padding: 2.5rem 2.25rem;
+    margin: 0 auto;
+    max-width: 520px;
+    width: 100%;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+}
+
+.register-title {
+    font-size: 1.7rem;
+    font-weight: 700;
+    color: #333;
+}
+
+.register-subtitle {
+    color: #666;
+    font-size: 0.95rem;
+}
+
+.form-label {
+    font-weight: 600;
+    color: #444;
+}
+
+.form-control {
+    border-radius: 999px;
+    padding-inline: 1.2rem;
+}
+
+.btn-primary {
+    background: linear-gradient(45deg, #007bff, #0056b3);
+    border: none;
+    border-radius: 999px;
+    padding: 0.75rem;
+    font-size: 1.05rem;
+    font-weight: 600;
+}
+
+.btn-primary:disabled {
+    opacity: 0.8;
+    cursor: wait;
+}
+
+.app-footer {
+    background-color: rgba(0, 0, 0, 0.2);
+    color: rgba(255, 255, 255, 0.85);
+    padding: 1rem 0;
+    text-align: center;
+    font-size: 0.85rem;
+}
+
+.small-link {
+    font-size: 0.9rem;
+}
+
+
+
+/*login*/
+body {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.app-header {
+    background-color: #3f51b5;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    padding: 1rem 0;
+    margin-bottom: 2rem;
+}
+
+.logo-img {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.login-container {
+    flex: 1;
+    display: flex;
+    align-items: center;
+}
+
+.login-card {
+    background: rgba(255, 255, 255, 0.97);
+    border-radius: 18px;
+    padding: 2.5rem 2.25rem;
+    margin: 0 auto;
+    max-width: 480px;
+    width: 100%;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+}
+
+.login-title {
+    font-size: 1.7rem;
+    font-weight: 700;
+    color: #333;
+}
+
+.login-subtitle {
+    color: #666;
+    font-size: 0.95rem;
+}
+
+.form-label {
+    font-weight: 600;
+    color: #444;
+}
+
+.form-control {
+    border-radius: 999px;
+    padding-inline: 1.2rem;
+}
+
+.btn-primary {
+    background: linear-gradient(45deg, #007bff, #0056b3);
+    border: none;
+    border-radius: 999px;
+    padding: 0.75rem;
+    font-size: 1.05rem;
+    font-weight: 600;
+}
+
+.btn-primary:disabled {
+    opacity: 0.8;
+    cursor: wait;
+}
+
+.app-footer {
+    background-color: rgba(0, 0, 0, 0.2);
+    color: rgba(255, 255, 255, 0.85);
+    padding: 1rem 0;
+    text-align: center;
+    font-size: 0.85rem;
+}
+
+.small-link {
+    font-size: 0.9rem;
+}
+
+/*cart*/
+body {
+    background: #f4f7ff;
+    font-family: 'Tajawal', sans-serif;
+}
+
+.cart-container {
+    max-width: 900px;
+    margin: 50px auto;
+}
+
+.cart-card {
+    background: white;
+    border-radius: 20px;
+    padding: 25px;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 8px 24px;
+    animation: fade 0.5s ease;
+}
+
+@keyframes fade {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.cart-item {
+    background: #f9faff;
+    padding: 15px;
+    border-radius: 15px;
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: 0.3s;
+}
+
+.cart-item:hover {
+    background: #eef2ff;
+}
+
+.qty-btn {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background: #5567ff;
+    color: white;
+    border: none;
+    font-size: 18px;
+    transition: 0.2s;
+}
+
+.qty-btn:hover {
+    transform: scale(1.1);
+}
+
+.remove-btn {
+    background: none;
+    border: none;
+    color: red;
+    font-size: 20px;
+}
+
+.checkout-btn {
+    background: linear-gradient(135deg, #5567ff, #3649ff);
+    width: 100%;
+    padding: 15px;
+    border-radius: 15px;
+    color: white;
+    font-size: 18px;
+    border: none;
+    transition: 0.2s;
+}
+
+.checkout-btn:hover {
+    opacity: 0.8;
+}
+
+.empty-cart {
+    text-align: center;
+    padding: 50px;
+}
+
+.empty-cart i {
+    font-size: 60px;
+    color: #5567ff;
+}
+
+/*success*/
+body {
+    background: linear-gradient(135deg, #6e8efb, #a777e3);
+    text-align: center;
+    padding-top: 80px;
+    font-family: 'Tajawal', sans-serif;
+    color: white;
+}
+
+.success-box {
+    background: rgba(255, 255, 255, 0.15);
+    padding: 40px;
+    max-width: 450px;
+    margin: auto;
+    border-radius: 25px;
+    backdrop-filter: blur(10px);
+}
+
+.success-box i {
+    font-size: 70px;
+    margin-bottom: 20px;
+    color: #4eff9c;
+}
+
+.btn-home {
+    padding: 12px 25px;
+    margin-top: 20px;
+    border-radius: 15px;
+    background: white;
+    color: #444;
+    border: none;
 }
