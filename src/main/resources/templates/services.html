@@ -70,9 +70,9 @@
 
           <h4 th:text="${service.name}">اسم الخدمة</h4>
 
-          <p class="text-muted" th:text="${service.description}">
+          <b><p class="text-muted" th:text="${service.description}">
             وصف الخدمة
-          </p>
+          </p></b>
 
           <div class="service-price mb-2">
             <span th:text="${service.price} + ' ريال'"></span>
@@ -98,41 +98,6 @@
   </footer>
 
   <!-- =============================== JS =============================== -->
-  <script>
-    /***********************
-     *** login display ***
-    ************************/
-    const user = JSON.parse(localStorage.getItem("user"));
-    const loginBtn = document.getElementById("loginBtn");
-    const profileAvatar = document.getElementById("profileAvatar");
-
-    if (user) {
-      loginBtn.style.display = "none";
-      profileAvatar.style.display = "block";
-
-      if (user.profileImage) {
-        profileAvatar.src = user.profileImage;
-      }
-    }
-
-    /***********************
-     *** Add to cart ***
-    ************************/
-function addToCart(id, name, price) {
-
-    let cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-    cart.push({
-        id: id,
-        quantity: 1
-    });
-
-    localStorage.setItem("cart", JSON.stringify(cart));
-
-    alert("تمت إضافة الخدمة إلى السلة ✔");
-};
-  </script>
-
+<script th:src="@{/js/services.js}"></script>
 </body>
-
 </html>

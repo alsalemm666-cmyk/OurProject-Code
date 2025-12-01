@@ -4,7 +4,6 @@ import laundry.com.online_laundry_service.Entities.Order;
 import laundry.com.online_laundry_service.Entities.Payment;
 import laundry.com.online_laundry_service.Repositories.OrderRepository;
 import laundry.com.online_laundry_service.Repositories.PaymentRepository;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -47,5 +46,9 @@ public class PaymentService {
 
     public void deletePayment(Long id) {
         paymentRepository.deleteById(id);
+    }
+
+    public Payment save(Payment payment) {
+        return paymentRepository.save(payment);
     }
 }

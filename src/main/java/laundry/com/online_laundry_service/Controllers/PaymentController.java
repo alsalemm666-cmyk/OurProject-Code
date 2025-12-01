@@ -1,38 +1,42 @@
 package laundry.com.online_laundry_service.Controllers;
 
-import laundry.com.online_laundry_service.Entities.Payment;
-import laundry.com.online_laundry_service.Services.PaymentService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Optional;
+import laundry.com.online_laundry_service.DTO.PaymentRequestDTO;
+import laundry.com.online_laundry_service.Entities.Order;
+import laundry.com.online_laundry_service.Entities.Payment;
+import laundry.com.online_laundry_service.Services.OrderService;
+import laundry.com.online_laundry_service.Services.PaymentService;
+
+import java.time.LocalDate;
 
 @RestController
 @RequestMapping("/api/payments")
+@RequiredArgsConstructor
 public class PaymentController {
 
-    @Autowired
-    private PaymentService paymentService;
+    private final PaymentService paymentService;
+    private final OrderService orderService;
 
-    @GetMapping
-    public List<Payment> getAllPayments() {
-        return paymentService.getAllPayments();
-    }
+    @PostMapping("/pay")   // ✅ هذا هو السطر الذي يحل مشكلتك
+    public ResponseEntity<?> pay(@RequestBody PaymentRequestDTO dto) {
 
-    @GetMapping("/{id}")
-    public Optional<Payment> getPaymentById(@PathVariable Long id) {
-        return paymentService.getPaymentById(id);
-    }
+        // جلب الطلب
+        Order order = orderService.getOrderById(dto.getOrderId())
+                .orElseThrow(() -> new RuntimeException("Order not found"));
 
-    @PostMapping
-    public Payment createPayment(@RequestBody Payment payment) {
-        return paymentService.createPayment(payment);
-    }
+        // إنشاء عملية الدفع
+        Payment payment = new Payment();
+        payment.setOrder(order);
+        payment.setAmount(dto.getAmount());
+        payment.setMethod(dto.getMethod());
+        payment.setStatus("Paid");
+        payment.setPaymentDate(LocalDate.now());
 
-    @DeleteMapping("/{id}")
-    public void deletePayment(@PathVariable Long id) {
-        paymentService.deletePayment(id);
+        Payment saved = paymentService.save(payment);
+
+        return ResponseEntity.ok(saved);
     }
 }
-

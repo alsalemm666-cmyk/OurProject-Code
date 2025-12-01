@@ -3,6 +3,8 @@ package laundry.com.online_laundry_service.Entities;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "payments")
 public class Payment {
@@ -12,16 +14,15 @@ public class Payment {
     private Long id;
 
     private double amount;
-    private String method;     // Cash / Card / Online
-    private String status;     // Paid / Pending
+    private String method;
+    private String status;
     private LocalDate paymentDate;
 
-    // ✅ العلاقة الصحيحة: كل طلب له عملية دفع واحدة
     @OneToOne
     @JoinColumn(name = "order_id")
+    @JsonIgnore        // 👈 برضو مهم
     private Order order;
-
-    // Getters and Setters
+    
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 

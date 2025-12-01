@@ -112,16 +112,20 @@
             }
 
             let order = {
-                pickupTime: pickup,
-                status: "Pending",
-                // يجب أن تكون الواجهة الخلفية تعرف التعامل مع هذا الهيكل
-                services: [{ id: serviceId }] 
+               userId: JSON.parse(localStorage.getItem("user")).id,
+               items: [
+                  {
+                     id: serviceId,   // serviceId
+                     quantity: 1
+                  }
+               ]
             };
 
-            fetch(API_URL + '/orders', {
-                method: 'POST',
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(order)
+
+            fetch(API_URL + '/orders/create', {
+               method: 'POST',
+               headers: { "Content-Type": "application/json" },
+               body: JSON.stringify(order)
             })
             .then(res => {
                 if (res.ok) {
@@ -137,7 +141,7 @@
             .catch(err => alert("خطأ! " + err.message));
         }
     </script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script th:src="@{/js/main.js}"></script>
+ <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script th:src="@{/js/main.js}"></script>
 </body>
 </html>

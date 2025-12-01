@@ -35,9 +35,9 @@
                 </a>
 
                 <!-- أيقونة البروفايل -->
-                <img id="profileIcon" 
+                <img id="profileAvatar" 
                      src="https://cdn-icons-png.flaticon.com/512/3177/3177440.png"
-                     style="display:none; width:40px; height:40px; cursor:pointer; border-radius:50%;">
+                     style="display:none; cursor:pointer; border-radius:50%; width:40px; height:40px;">
 
                 <!-- زر تسجيل الخروج -->
                 <button id="logoutBtn" class="btn btn-danger btn-sm mx-2">تسجيل الخروج</button>
@@ -71,40 +71,7 @@
     </footer>
 
     <!-- ============ SCRIPT ============ -->
-    <script>
-        const user = JSON.parse(localStorage.getItem("user"));
-
-        const usernameDisplay = document.getElementById("usernameDisplay");
-        const loginBtn = document.getElementById("loginBtn");
-        const profileIcon = document.getElementById("profileIcon");
-        const logoutBtn = document.getElementById("logoutBtn");
-
-        if (user) {
-            usernameDisplay.textContent = user.name;
-
-            loginBtn.style.display = "none";
-            profileIcon.style.display = "inline-block";
-            logoutBtn.style.display = "inline-block";
-
-            // انتقال لصفحة البروفايل
-            profileIcon.onclick = () => {
-                window.location.href = "/profile";
-            };
-
-        } else {
-            usernameDisplay.textContent = "الضيف";
-
-            loginBtn.style.display = "inline-block";
-            profileIcon.style.display = "none";
-            logoutBtn.style.display = "none";
-        }
-
-        // تسجيل الخروج
-        logoutBtn.onclick = function () {
-            localStorage.removeItem("user");
-            window.location.href = "/login";
-        };
-    </script>
+<script th:src="@{/js/home.js}"></script>
 
 </body>
 </html>

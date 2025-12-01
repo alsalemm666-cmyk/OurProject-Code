@@ -1,5 +1,7 @@
 package laundry.com.online_laundry_service.Entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -11,10 +13,11 @@ public class OrderItem {
     private Long id;
 
     private int quantity;
-    private double price; // service.price * quantity
+    private double price;
 
     @ManyToOne
     @JoinColumn(name = "order_id")
+    @JsonIgnore        // 👈 مهم جداً
     private Order order;
 
     @ManyToOne

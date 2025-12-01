@@ -60,6 +60,7 @@ document.addEventListener("DOMContentLoaded", renderCart);
 
 // ===================== PAYMENT =====================
 async function processPayment(orderId, totalPrice) {
+
     const methodInput = document.querySelector("input[name='payMethod']:checked");
     const method = methodInput ? methodInput.value : "CASH";
 
@@ -69,17 +70,23 @@ async function processPayment(orderId, totalPrice) {
         method: method
     };
 
+    // ✅✅ المسار الصحيح + إزالة (...) الخاطئة
     const response = await fetch("/api/payments/pay", {
         method: "POST",
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify(paymentData)
     });
 
-    if (!response.ok) throw new Error("فشل الدفع");
+    if (!response.ok) {
+        const err = await response.text();
+        console.error("Payment Error:", err);
+        throw new Error("فشل الدفع");
+    }
 }
 
 // ===================== CONFIRM ORDER =====================
 async function confirmOrder() {
+
     const fullName = document.getElementById("fullName").value.trim();
     const city = document.getElementById("city").value.trim();
     const address = document.getElementById("address").value.trim();
@@ -100,10 +107,10 @@ async function confirmOrder() {
         return;
     }
 
-    // إجمالي السعر
+    // ✅ حساب الإجمالي بشكل صحيح
     let total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
-    // 🔥 البيانات اللازمة فقط للباك-إند
+    // ✅ شكل البيانات المتوافق مع OrderCreateRequest
     const orderRequestBody = {
         userId: user.id,
         items: cart.map(item => ({
@@ -113,7 +120,7 @@ async function confirmOrder() {
     };
 
     try {
-        // 1) إنشاء الطلب
+        // 1️⃣ إنشاء الطلب
         const orderResponse = await fetch("/api/orders/create", {
             method: "POST",
             headers: {"Content-Type": "application/json"},
@@ -129,13 +136,13 @@ async function confirmOrder() {
 
         const createdOrder = await orderResponse.json();
 
-        // 2) تنفيذ الدفع
+        // 2️⃣ تنفيذ الدفع
         await processPayment(createdOrder.id, total);
 
-        // 3) مسح السلة
+        // 3️⃣ مسح السلة
         localStorage.removeItem("cart");
 
-        // 4) صفحة النجاح
+        // 4️⃣ الانتقال لصفحة النجاح
         window.location.href = "/success";
 
     } catch (err) {

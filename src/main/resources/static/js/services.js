@@ -1,48 +1,47 @@
-// services.js
+    /***********************
+     *** login display ***
+    ************************/
+    const user = JSON.parse(localStorage.getItem("user"));
+    const loginBtn = document.getElementById("loginBtn");
+    const profileAvatar = document.getElementById("profileAvatar");
 
-const API_BASE = "";
+    if (user) {
+      loginBtn.style.display = "none";
+      profileAvatar.style.display = "block";
 
-async function loadServices() {
-  const container = document.getElementById("servicesContainer");
-  container.innerHTML = "جاري التحميل...";
+      if (user.profileImage) {
+        profileAvatar.src = user.profileImage;
+      }
+    }
 
-  const res = await fetch(`${API_BASE}/api/services`);
-  const services = await res.json();
+    /***********************
+     *** Add to cart ***
+    ************************/
+function addToCart(id, name, price) {
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-  container.innerHTML = "";
-  services.forEach(s => {
-    const card = document.createElement("div");
-    card.className = "col-md-4 mb-3";
-    card.innerHTML = `
-      <div class="card h-100 shadow-sm">
-        <div class="card-body text-end">
-          <h5 class="card-title">${s.name}</h5>
-          <p class="card-text small text-muted">${s.description || ""}</p>
-          <p class="fw-bold mb-3">السعر: ${s.price} ريال</p>
-          <button class="btn btn-primary w-100" data-id="${s.id}">إضافة للسلة</button>
-        </div>
-      </div>
-    `;
-    container.appendChild(card);
-  });
+  const existing = cart.find(item => item.id === id);
 
-  container.querySelectorAll("button").forEach(btn => {
-    btn.addEventListener("click", () => {
-      addToCart(parseInt(btn.getAttribute("data-id")));
-    });
-  });
-}
-
-function addToCart(serviceId) {
-  let cart = JSON.parse(localStorage.getItem("cart") || "[]");
-  const existing = cart.find(item => item.serviceId === serviceId);
   if (existing) {
     existing.quantity += 1;
   } else {
-    cart.push({ serviceId, quantity: 1 });
+    cart.push({
+      id: id,
+      name: name,
+      price: price,
+      quantity: 1
+    });
   }
-  localStorage.setItem("cart", JSON.stringify(cart));
-  alert("تمت إضافة الخدمة إلى السلة");
-}
 
-document.addEventListener("DOMContentLoaded", loadServices);
+  localStorage.setItem("cart", JSON.stringify(cart));
+  alert("تمت إضافة الخدمة إلى السلة ✔");
+}
+document.querySelectorAll(".addToCartBtn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    addToCart(
+      Number(btn.dataset.id),
+      btn.dataset.name,
+      Number(btn.dataset.price)
+    );
+  });
+});
