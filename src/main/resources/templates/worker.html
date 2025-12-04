@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>لوحة العامل - Laundry Management System</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Google Font (Arabic + English) -->
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+    <!-- Worker Styles -->
+    <link rel="stylesheet" th:href="@{/css/worker.css}">
+</head>
+<body>
+
+    <!-- ================= Header ================= -->
+    <header class="app-header">
+        <div class="header-content">
+            <h2 class="logo">
+                <i class="fa-solid fa-shirt"></i>
+                Laundry Management System
+            </h2>
+
+            <nav class="top-nav">
+                <a href="#" class="nav-link active">Dashboard</a>
+                <a href="#" class="nav-link">Orders</a>
+                <button id="logoutBtn" class="btn-logout">
+                    <i class="fa fa-sign-out-alt"></i> Logout
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- ================= Main ================= -->
+    <main class="worker-main">
+
+        <!-- ===== Orders Control Bar ===== -->
+        <section class="orders-toolbar">
+            <input type="text" id="searchInput" placeholder="ابحث برقم الطلب أو اسم العميل...">
+
+            <select id="statusFilter">
+                <option value="ALL">جميع الطلبات</option>
+                <option value="NEW">الطلبات الجديدة</option>
+                <option value="PROCESSING">قيد المعالجة</option>
+                <option value="READY">جاهز للاستلام</option>
+                <option value="DELIVERED">تم التسليم</option>
+            </select>
+        </section>
+
+        <!-- ===== Orders & Details Layout ===== -->
+        <section class="orders-layout">
+
+            <!-- ===== Orders List ===== -->
+            <section class="orders-list" id="ordersList">
+                <!-- Orders loaded here dynamically -->
+            </section>
+
+            <!-- ===== Order Details Panel ===== -->
+            <section class="order-details" id="orderDetails">
+                <div class="empty-details">
+                    <i class="fa fa-list"></i>
+                    <p>اختر طلبًا لعرض التفاصيل</p>
+                </div>
+            </section>
+
+        </section>
+    </main>
+
+    <!-- ================= Footer ================= -->
+    <footer class="app-footer">
+        <p>© 2025 Laundry Management System - Worker Panel</p>
+    </footer>
+
+    <!-- Worker Scripts -->
+    <script th:src="@{/js/worker.js}"></script>
+</body>
+</html>

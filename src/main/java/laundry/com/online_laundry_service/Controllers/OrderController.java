@@ -3,6 +3,7 @@ package laundry.com.online_laundry_service.Controllers;
 import lombok.RequiredArgsConstructor;
 import laundry.com.online_laundry_service.DTO.CartItemDTO;
 import laundry.com.online_laundry_service.DTO.OrderCreateRequest;
+import laundry.com.online_laundry_service.DTO.UpdateOrderStatusRequest;
 import laundry.com.online_laundry_service.Entities.LaundryService;
 import laundry.com.online_laundry_service.Entities.Order;
 import laundry.com.online_laundry_service.Entities.OrderItem;
@@ -27,41 +28,79 @@ public class OrderController {
     private final Userservice userService;
     private final ServiceService serviceService;
 
-@PostMapping("/create")
-public ResponseEntity<?> createOrder(@RequestBody OrderCreateRequest req) {
+    // ========================= (1) إنشاء طلب جديد =========================
+    @PostMapping("/create")
+    public ResponseEntity<?> createOrder(@RequestBody OrderCreateRequest req) {
 
-    // جلب المستخدم
-    User user = userService.getUserById(req.getUserId())
-            .orElseThrow(() -> new RuntimeException("User not found"));
+        User user = userService.getUserById(req.getUserId())
+                .orElseThrow(() -> new RuntimeException("User not found"));
 
-    Order order = new Order();
-    order.setUser(user);
-    order.setStatus("Pending");
-    order.setPickupTime(LocalDateTime.now());
-    order.setDeliveryTime(LocalDateTime.now().plusDays(1));
+        Order order = new Order();
+        order.setUser(user);
+        order.setStatus("NEW");
+        order.setPickupTime(LocalDateTime.now());
+        order.setDeliveryTime(LocalDateTime.now().plusDays(1));
 
-    List<OrderItem> items = new ArrayList<>();
+        List<OrderItem> items = new ArrayList<>();
 
-    // معالجة سلة المشتريات
-    for (CartItemDTO item : req.getItems()) {
+        for (CartItemDTO item : req.getItems()) {
+            LaundryService service =
+                    serviceService.getServiceById(item.getId())
+                            .orElseThrow(() -> new RuntimeException("Service not found"));
 
-        LaundryService service =
-                serviceService.getServiceById(item.getId())
-                        .orElseThrow(() -> new RuntimeException("Service not found: " + item.getId()));
+            OrderItem orderItem = new OrderItem();
+            orderItem.setService(service);
+            orderItem.setQuantity(item.getQuantity());
+            orderItem.setPrice(service.getPrice() * item.getQuantity());
+            orderItem.setOrder(order);
 
-        OrderItem orderItem = new OrderItem();
-        orderItem.setService(service);
-        orderItem.setQuantity(item.getQuantity());
-        orderItem.setPrice(service.getPrice() * item.getQuantity());
-        orderItem.setOrder(order);
+            items.add(orderItem);
+        }
 
-        items.add(orderItem);
+        order.setOrderItems(items);
+
+        Order saved = orderService.createOrder(order);
+        return ResponseEntity.ok(saved);
     }
 
-    order.setOrderItems(items);
+    // ========================= (2) جلب كل الطلبات لواجهة العامل =========================
+    @GetMapping("/worker")
+    public ResponseEntity<List<Order>> getAllOrdersForWorker() {
+        return ResponseEntity.ok(orderService.getAllOrders());
+    }
 
-    Order saved = orderService.createOrder(order);
-    return ResponseEntity.ok(saved);
+    // ========================= (3) جلب تفاصيل طلب واحد =========================
+    @GetMapping("/{id}")
+    public ResponseEntity<Order> getOrderDetails(@PathVariable Long id) {
+        return orderService.getOrderById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    // ========================= (4) تحديث حالة الطلب من واجهة العامل =========================
+    @PutMapping("/{id}/status")
+    public ResponseEntity<?> updateOrderStatus(
+            @PathVariable Long id,
+            @RequestBody UpdateOrderStatusRequest request) {
+
+        Order updated = orderService.updateOrder(id, buildStatusOnlyOrder(request.getStatus()));
+
+        if (updated == null) {
+            return ResponseEntity.badRequest().body("Order not found");
+        }
+
+        return ResponseEntity.ok(updated);
+    }
+
+    // ========================= مساعد داخلي لتحديث الحالة فقط =========================
+    private Order buildStatusOnlyOrder(String status) {
+        Order o = new Order();
+        o.setStatus(status);
+        return o;
+    }
+    @GetMapping("/user/{userId}")
+public ResponseEntity<List<Order>> getOrdersByUser(@PathVariable Long userId) {
+    return ResponseEntity.ok(orderService.getOrdersByUserId(userId));
 }
 
 }

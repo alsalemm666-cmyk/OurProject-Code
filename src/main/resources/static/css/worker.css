@@ -1,0 +1,174 @@
+/* ================= Global Setup ================= */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: "Tajawal", sans-serif;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: #222;
+    direction: rtl;
+}
+
+/* ================= Header ================= */
+.app-header {
+    background: #3f51b5;
+    padding: 15px 0;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+}
+
+.header-content {
+    width: 95%;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.top-nav {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.nav-link {
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    opacity: 0.85;
+}
+
+.nav-link.active,
+.nav-link:hover {
+    opacity: 1;
+}
+
+.btn-logout {
+    background: #e53935;
+    color: white;
+    border: none;
+    padding: 6px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.btn-logout:hover {
+    background: #c62828;
+}
+
+/* ================= Main Layout ================= */
+.worker-main {
+    width: 95%;
+    margin: 20px auto;
+}
+
+/* ===== Toolbar ===== */
+.orders-toolbar {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.orders-toolbar input,
+.orders-toolbar select {
+    padding: 10px;
+    border-radius: 8px;
+    border: none;
+    width: 100%;
+}
+
+/* ===== Orders Layout ===== */
+.orders-layout {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 20px;
+}
+
+/* ===== Orders List ===== */
+.orders-list {
+    background: #ffffffdd;
+    border-radius: 16px;
+    padding: 15px;
+    max-height: 600px;
+    overflow-y: auto;
+}
+
+.order-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 12px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: 0.2s;
+}
+
+.order-card:hover {
+    border-color: #3f51b5;
+}
+
+.order-card.selected {
+    border-color: #3f51b5;
+    background: #eef0ff;
+}
+
+/* ===== Order Status Badges ===== */
+.badge {
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    color: white;
+}
+
+.badge.NEW { background: #ff9800; }
+.badge.PROCESSING { background: #2196f3; }
+.badge.READY { background: #4caf50; }
+.badge.DELIVERED { background: #9e9e9e; }
+
+/* ===== Order Details ===== */
+.order-details {
+    background: #ffffffdd;
+    border-radius: 16px;
+    padding: 20px;
+}
+
+.order-details h3 {
+    margin-top: 0;
+}
+
+/* ===== Buttons ===== */
+.btn-primary {
+    background: linear-gradient(45deg, #007bff, #0056b3);
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.btn-primary:hover {
+    opacity: 0.9;
+}
+
+/* ===== Footer ===== */
+.app-footer {
+    text-align: center;
+    padding: 15px;
+    background: rgba(0,0,0,0.25);
+    color: white;
+}
+
+/* ================= Responsive ================= */
+@media (max-width: 900px) {
+    .orders-layout {
+        grid-template-columns: 1fr;
+    }
+}

@@ -1,0 +1,71 @@
+<!-- ======================= my-orders.html ======================= -->
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>طلباتي - Laundry System</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- يمكن إعادة استخدام نفس ملفات الستايل العامة -->
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/my-orders.css">
+
+    <!-- أيقونات (اختياري) -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+          integrity="sha512-..."
+          crossorigin="anonymous"
+          referrerpolicy="no-referrer" />
+</head>
+<body>
+    <!-- Header بسيط (يمكنك نسخه من home.html لو تحب نفس التصميم بالضبط) -->
+    <header class="site-header">
+        <div class="logo">
+            <span class="logo-text">Laundry System</span>
+        </div>
+        <nav class="main-nav">
+            <a href="/home">الرئيسية</a>
+            <a href="/services">الخدمات</a>
+            <a href="/cart">سلة الطلبات</a>
+            <a href="/my-orders" class="active">طلباتي</a>
+        </nav>
+    </header>
+
+    <main class="orders-page">
+        <section class="orders-header">
+            <h1>طلباتي</h1>
+            <p class="subtitle">هنا يمكنك متابعة جميع طلباتك وحالاتها.</p>
+        </section>
+
+        <section id="ordersAlert" class="alert d-none"></section>
+
+        <section class="orders-content">
+            <div class="orders-table-wrapper">
+                <table class="orders-table">
+                    <thead>
+                        <tr>
+                            <th>رقم الطلب</th>
+                            <th>تاريخ الطلب</th>
+                            <th>الخدمة</th>
+                            <th>الحالة</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ordersTableBody">
+                        <!-- سيتم تعبئته من my-orders.js -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="emptyState" class="empty-state d-none">
+                لا توجد طلبات مسجلة لهذا الحساب حتى الآن.
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <p>© 2025 Laundry System - جميع الحقوق محفوظة.</p>
+    </footer>
+
+    <script src="/js/my-orders.js"></script>
+</body>
+</html>

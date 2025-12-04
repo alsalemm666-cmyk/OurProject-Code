@@ -84,4 +84,17 @@ public String cartPage() {
         model.addAttribute("pageTitle", "تم تأكيد الطلب");
         return "success";    // success.html في templates
     }
+@GetMapping("/admin")
+public String adminPage() {
+    return "admin";
+}
+    @GetMapping("/worker")
+    public String workerPage() {
+        return "worker";
+    }
+@GetMapping("/my-orders")
+public String myOrdersPage() {
+    return "my-orders"; // بدون .html
+}
+
 }

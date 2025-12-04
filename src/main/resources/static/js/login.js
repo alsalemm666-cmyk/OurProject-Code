@@ -1,41 +1,65 @@
-    const form = document.getElementById("loginForm");
-    const alertBox = document.getElementById("alertBox");
+// ======================= login.js =======================
+// Handle user login for Laundry System
+// - Sends POST /users/login
+// - Stores user in localStorage
+// - Redirects based on user.role (ADMIN / WORKER / CUSTOMER)
+
+// Run when DOM content is loaded
+document.addEventListener("DOMContentLoaded", () => {
+    const loginForm = document.getElementById("loginForm");
+    const emailInput = document.getElementById("email");
+    const passwordInput = document.getElementById("password");
     const loginBtn = document.getElementById("loginBtn");
     const loginBtnText = document.getElementById("loginBtnText");
     const loginBtnSpinner = document.getElementById("loginBtnSpinner");
+    const alertBox = document.getElementById("alertBox");
 
+    /**
+     * Show message inside alert box
+     * @param {string} message 
+     * @param {"success"|"danger"|"info"} type 
+     */
     function showAlert(message, type = "danger") {
-        alertBox.className = "alert alert-" + type;
-        alertBox.textContent = message;
+        if (!alertBox) return;
         alertBox.classList.remove("d-none");
+        alertBox.classList.remove("alert-danger", "alert-success", "alert-info");
+        alertBox.classList.add("alert-" + type);
+        alertBox.textContent = message;
     }
 
-    function clearAlert() {
-        alertBox.classList.add("d-none");
-        alertBox.textContent = "";
-    }
-
+    /**
+     * Toggle loading state on login button
+     * @param {boolean} isLoading 
+     */
     function setLoading(isLoading) {
-        if (isLoading) {
-            loginBtn.disabled = true;
-            loginBtnSpinner.classList.remove("d-none");
-            loginBtnText.textContent = "جاري التحقق...";
-        } else {
-            loginBtn.disabled = false;
-            loginBtnSpinner.classList.add("d-none");
-            loginBtnText.textContent = "تسجيل الدخول";
+        if (!loginBtn) return;
+        loginBtn.disabled = isLoading;
+        if (loginBtnSpinner && loginBtnText) {
+            if (isLoading) {
+                loginBtnSpinner.classList.remove("d-none");
+                loginBtnText.textContent = "جاري تسجيل الدخول...";
+            } else {
+                loginBtnSpinner.classList.add("d-none");
+                loginBtnText.textContent = "تسجيل الدخول";
+            }
         }
     }
 
-    form.addEventListener("submit", async function (e) {
-        e.preventDefault();
-        clearAlert();
+    if (!loginForm) {
+        console.warn("loginForm not found in DOM.");
+        return;
+    }
 
-        const email = document.getElementById("email").value.trim();
-        const password = document.getElementById("password").value.trim();
+    // Handle submit
+    loginForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        if (alertBox) alertBox.classList.add("d-none");
+
+        const email = emailInput.value.trim();
+        const password = passwordInput.value.trim();
 
         if (!email || !password) {
-            showAlert("الرجاء إدخال البريد الإلكتروني وكلمة المرور.");
+            showAlert("الرجاء إدخال البريد الإلكتروني وكلمة المرور.", "danger");
             return;
         }
 
@@ -50,40 +74,38 @@
                 body: JSON.stringify({ email, password })
             });
 
-            const contentType = response.headers.get("content-type");
-            let data = null;
-
-            if (contentType && contentType.includes("application/json")) {
-                data = await response.json();
-            } else {
-                data = await response.text();
-            }
-
             if (!response.ok) {
-                const errorMessage = typeof data === "string" ? data : "فشل تسجيل الدخول، تأكد من البيانات.";
+                // Try to read error as text
+                let errorMessage = "فشل تسجيل الدخول. تأكد من البيانات.";
+                try {
+                    const text = await response.text();
+                    if (text) errorMessage = text;
+                } catch (_) {}
                 showAlert(errorMessage, "danger");
                 setLoading(false);
                 return;
             }
 
-            // في حالة النجاح: نحفظ بيانات المستخدم في localStorage
-            if (typeof data === "object") {
-                try {
-                    localStorage.setItem("user", JSON.stringify(data));
-                } catch (e) {
-                    console.warn("لم يتمكن من حفظ المستخدم في localStorage:", e);
-                }
+            // Expecting UserResponseDTO: { id, name, email, role }
+            const user = await response.json();
+
+            // Save user in localStorage for later use
+            localStorage.setItem("user", JSON.stringify(user));
+
+            // Redirect based on role
+            if (user.role === "ADMIN") {
+                window.location.href = "/admin";
+            } else if (user.role === "WORKER") {
+                window.location.href = "/worker";
+            } else {
+                // CUSTOMER or any other role → home
+                window.location.href = "/home";
             }
 
-            // رسالة نجاح سريعة ثم تحويل
-            showAlert("تم تسجيل الدخول بنجاح، سيتم تحويلك الآن...", "success");
-            setTimeout(() => {
-                window.location.href = "/home";
-            }, 800);
-
-        } catch (err) {
-            console.error(err);
-            showAlert("حدث خطأ أثناء الاتصال بالخادم، حاول مرة أخرى.", "danger");
+        } catch (error) {
+            console.error("Login error:", error);
+            showAlert("حدث خطأ أثناء الاتصال بالخادم.", "danger");
             setLoading(false);
         }
     });
+});

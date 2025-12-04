@@ -89,10 +89,8 @@ public class OrderService {
     }
 
     // (اختياري) لجلب طلبات مستخدم معيّن إذا احتجتها للـ Profile أو My Orders
-    public List<Order> getOrdersByUserId(Long userId) {
-        return orderRepository.findAll()
-                .stream()
-                .filter(o -> o.getUser() != null && o.getUser().getId().equals(userId))
-                .toList();
-    }
+public List<Order> getOrdersByUserId(Long userId) {
+    return orderRepository.findByUserId(userId);
+}
+
 }
