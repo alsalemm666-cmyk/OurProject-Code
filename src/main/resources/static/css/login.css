@@ -83,6 +83,78 @@ nav a:hover {
 .social-icon {
     font-size: 1.5rem;
 }
+/*login*/
+body {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
 
+.logo-img {
+    max-width: 200px;
+}
 
+.login-container {
+    flex: 1;
+    display: flex;
+    align-items: center;
+}
 
+.login-card {
+    background: rgba(255, 255, 255, 0.97);
+    border-radius: 18px;
+    padding: 2.5rem 2.25rem;
+    margin: 0 auto;
+    max-width: 480px;
+    width: 100%;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+}
+
+.login-title {
+    font-size: 1.7rem;
+    font-weight: 700;
+    color: #333;
+}
+
+.login-subtitle {
+    color: #666;
+    font-size: 0.95rem;
+}
+
+.form-label {
+    font-weight: 600;
+    color: #444;
+}
+
+.form-control {
+    border-radius: 999px;
+    padding-inline: 1.2rem;
+}
+
+.btn-primary {
+    background: linear-gradient(45deg, #007bff, #0056b3);
+    border: none;
+    border-radius: 999px;
+    padding: 0.75rem;
+    font-size: 1.05rem;
+    font-weight: 600;
+}
+
+.btn-primary:disabled {
+    opacity: 0.8;
+    cursor: wait;
+}
+
+.app-footer {
+    background-color: rgba(0, 0, 0, 0.2);
+    color: rgba(255, 255, 255, 0.85);
+    padding: 1rem 0;
+    text-align: center;
+    font-size: 0.85rem;
+}
+
+.small-link {
+    font-size: 0.9rem;
+}

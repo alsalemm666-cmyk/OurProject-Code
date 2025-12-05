@@ -13,7 +13,7 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 
   <!-- Custom CSS -->
-  <link rel="stylesheet" th:href="@{/css/main.css}">
+  <link rel="stylesheet" th:href="@{/css/services.css}">
 
 </head>
 
@@ -31,8 +31,7 @@
 
         <a th:href="@{/home}" class="text-white mx-2 text-decoration-none">الرئيسية</a>
         <a th:href="@{/services}" class="text-white mx-2 text-decoration-none fw-bold">الخدمات</a>
-        <a th:href="@{/orders/create}" class="text-white mx-2 text-decoration-none">إنشاء طلب</a>
-
+        <a th:href="@{/my-orders}" class="text-white mx-2 text-decoration-none">طلباتي</a>
         <a th:href="@{/cart}" class="text-white mx-2 text-decoration-none">
           <i class="fa fa-shopping-cart"></i> السلة
         </a>
@@ -93,9 +92,35 @@
   </main>
 
   <!-- =============================== FOOTER =============================== -->
-  <footer class="app-footer text-center py-3 mt-4">
-    <p class="text-white-50">© 2025 نظام المغاسل الذكي - جميع الحقوق محفوظة</p>
-  </footer>
+    <footer class="app-footer pt-5 pb-3 mt-auto">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 mb-4">
+                    <h5>نظام إدارة المغاسل</h5>
+                    <p class="small">تطبيق متكامل لتتبع وإدارة طلبات المغاسل بكل سهولة وسرعة، مع واجهة مستخدم عصرية وأنيقة.</p>
+                </div>
+                <div class="col-md-6 mb-4 text-end">
+                    <h5>تواصل معنا</h5>
+                    <ul class="list-unstyled small text-end">
+                        <li><i class="fas fa-map-marker-alt me-2"></i> المملكة العربية السعودية</li>
+                        <li><i class="fas fa-envelope me-2"></i> info@laundryapp.com</li>
+                        <li><i class="fas fa-phone me-2"></i> +966 50 XXX XXXX</li>
+                    </ul>
+                    <div class="mt-3">
+                        <a href="#" class="social-icon text-white"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-icon text-white"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-icon text-white"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+            </div>
+            <hr class="mt-2 mb-3" style="border-color: rgba(255, 255, 255, 0.3);">
+            <div class="row">
+                <div class="col-12 text-center small text-white">
+                    &copy; <span th:text="${#dates.format(#dates.createNow(), 'yyyy')}">2025</span> جميع الحقوق محفوظة لنظام المغاسل الذكي.
+                </div>
+            </div>
+        </div>
+    </footer>
 
   <!-- =============================== JS =============================== -->
 <script th:src="@{/js/services.js}"></script>

@@ -1,0 +1,272 @@
+/*checkout*/
+
+/* ==================== 1. تنسيقات BODY والخلفية ==================== */
+body {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ==================== 2. تنسيقات الـ Header (منقولة من home.html) ==================== */
+.app-header {
+    background-color: #3f51b5;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    padding: 1rem 0;
+    margin-bottom: 2rem;
+}
+
+.logo-img {
+    max-width: 200px;
+}
+/* ==================== 3. تنسيقات الصفحة (نموذج الطلب الشفاف) ==================== */
+.order-card {
+    background: rgba(255, 255, 255, 0.15);
+    /* خلفية شبه شفافة */
+    backdrop-filter: blur(5px);
+    padding: 3rem;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    max-width: 550px;
+    /* عرض مناسب للنموذج */
+    margin: auto;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #ffffff;
+}
+
+.order-card h2 {
+    color: #ffffff;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+}
+
+.form-control,
+.form-select {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    color: #ffffff;
+    border-radius: 10px;
+    box-shadow: none;
+}
+
+.form-control:focus,
+.form-select:focus {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: #ffffff;
+}
+
+.form-control::placeholder,
+.form-select option {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.btn-submit {
+    background: linear-gradient(45deg, #007bff, #0056b3);
+    border: none;
+    border-radius: 25px;
+    padding: 0.75rem 0;
+    font-size: 1.1rem;
+    transition: transform 0.2s;
+}
+
+.btn-submit:hover {
+    transform: scale(1.02);
+}
+
+/* ==================== 4. تنسيقات الـ Footer (مدمجة) ==================== */
+.app-footer {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.8);
+    padding-top: 2rem !important;
+}
+
+.app-footer h5,
+.app-footer p,
+.app-footer a {
+    color: #ffffff;
+}
+
+/* خلفية عامة */
+.checkout-wrapper {
+    min-height: calc(100vh - 140px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 15px;
+    background: radial-gradient(circle at top, #8e9dff 0, transparent 60%),
+        radial-gradient(circle at bottom, #f3c6ff 0, transparent 60%);
+}
+
+/* الكارد الرئيسي (3 أعمدة) */
+.checkout-container {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+    max-width: 1150px;
+    width: 100%;
+    padding: 24px;
+}
+
+/* كارد زجاجي عام (مستوحى من uiverse) */
+.glass-card,
+.checkout-section {
+    background: rgba(255, 255, 255, 0.16);
+    border-radius: 22px;
+    box-shadow:
+        0 20px 40px rgba(0, 0, 0, 0.15),
+        0 0 0 1px rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    padding: 18px 20px;
+    color: #350606;
+}
+
+/* العناوين */
+.section-title {
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
+}
+
+.section-title i {
+    font-size: 1.2rem;
+}
+
+.section-subtitle {
+    font-size: 0.85rem;
+    color: #350606;
+    margin-bottom: 15px;
+}
+
+/* الحقول */
+.modern-input {
+    background: rgba(255, 255, 255, 0.16) !important;
+    border: 1px solid rgba(255, 255, 255, 0.4) !important;
+    color: #fff !important;
+    border-radius: 12px !important;
+}
+
+.modern-input::placeholder {
+    color: rgba(0, 0, 0, 0.7);
+}
+
+/* قائمة السلة */
+.cart-items-list {
+    max-height: 320px;
+    overflow-y: auto;
+    padding-right: 5px;
+}
+
+.cart-item-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 14px;
+    padding: 10px 12px;
+    margin-bottom: 8px;
+    background: rgba(0, 0, 0, 0.15);
+}
+
+.cart-item-main {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.cart-item-name {
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+.cart-item-qty {
+    font-size: 0.8rem;
+    color: #350606;
+}
+
+.cart-item-price {
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+/* إجمالي */
+.checkout-total {
+    margin-top: 16px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(255, 255, 255, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-weight: 700;
+}
+
+/* خيارات الدفع (radio cards) */
+.payment-methods {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.payment-option {
+    cursor: pointer;
+}
+
+.payment-option input {
+    display: none;
+}
+
+.payment-option-card {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    padding: 10px 12px;
+    border-radius: 14px;
+    background: rgba(0, 0, 0, 0.18);
+    border: 1px solid transparent;
+    transition: 0.2s ease-in-out;
+}
+
+.payment-option-card i {
+    font-size: 1.4rem;
+}
+
+.payment-option-card strong {
+    font-size: 0.95rem;
+}
+
+.payment-option-card p {
+    margin: 0;
+    font-size: 0.8rem;
+    color: #350606;
+}
+
+.payment-option input:checked+.payment-option-card {
+    border-color: #6fffc4;
+    box-shadow: 0 0 0 1px rgba(115, 255, 199, 0.6);
+}
+
+/* زر تأكيد */
+.btn-confirm {
+    border-radius: 16px;
+    background: linear-gradient(135deg, #42e695, #3bb2b8);
+    border: none;
+    padding: 10px 16px;
+    font-weight: 600;
+    color: #003031;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.btn-confirm:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 14px 30px rgba(0, 0, 0, 0.25);
+}
+
+/* موبايل */
+@media (max-width: 992px) {
+    .checkout-container {
+        grid-template-columns: 1fr;
+    }
+}

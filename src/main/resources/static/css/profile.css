@@ -84,5 +84,26 @@ nav a:hover {
     font-size: 1.5rem;
 }
 
+/* ============================
+   Profile Page
+============================ */
 
+.profile-container {
+    max-width: 800px;
+    margin: auto;
+}
 
+.profile-avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #3f51b5;
+}
+
+.profile-section {
+    background: #ffffffdd;
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}

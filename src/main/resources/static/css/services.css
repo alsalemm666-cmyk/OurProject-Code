@@ -1,6 +1,7 @@
 /* ============================
    إعدادات عامة – Main CSS
 ============================ */
+
 body {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     min-height: 100vh;
@@ -38,6 +39,7 @@ img {
 .logo-img {
     max-width: 200px;
 }
+
 /* ============================
    Header Styles
 ============================ */
@@ -67,6 +69,31 @@ nav a:hover {
 .dropdown-menu {
     text-align: right;
 }
+
+
+
+/* ============================
+   Laundry Services Page
+============================ */
+
+.service-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    transition: 0.2s;
+}
+
+.service-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.service-price {
+    color: #3f51b5;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
 /* ============================
         Footer
 ============================ */
@@ -83,6 +110,3 @@ nav a:hover {
 .social-icon {
     font-size: 1.5rem;
 }
-
-
-
